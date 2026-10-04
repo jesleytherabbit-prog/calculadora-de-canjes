@@ -4,414 +4,460 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ficha de Canjes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Courier+Prime&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#141210;
-  --panel:#1d1a16;
-  --panel-2:#242019;
-  --line: #3a332a;
-  --gold:#c19a49;
-  --gold-bright:#e0b968;
-  --gold-dim:#8a713a;
-  --arcane:#7d6bab;
-  --arcane-bright:#9a86c4;
-  --parchment:#ece4d1;
-  --parchment-dim:#a89a82;
-  --good:#89a37c;
-  --bad:#c1604a;
-  --serif: "Iowan Old Style","Palatino Linotype",Georgia,serif;
-  --sans: -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  --radius: 8px;
-  --radius-sm: 5px;
-  --shadow-1: 0 2px 10px rgba(0,0,0,0.28);
-  --shadow-2: 0 8px 28px rgba(0,0,0,0.38);
+  --ink:#171a2b;
+  --panel:#1e2236;
+  --panel-2:#262a42;
+  --line:rgba(241,234,223,0.09);
+  --line-strong:rgba(241,234,223,0.16);
+  --gold:#B49768;
+  --gold-bright:#d6bd8f;
+  --gold-dim:#8f7a58;
+  --arcane:#A96879;
+  --arcane-bright:#cf94a3;
+  --lavender:#827B9A;
+  --parchment:#F1EADF;
+  --parchment-dim:#a7a1b6;
+  --good:#93b8a0;
+  --bad:#d98377;
+  --serif:"Cormorant Garamond","Iowan Old Style",Georgia,serif;
+  --sans:"Nunito",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --radius:16px;
+  --radius-sm:10px;
+  --shadow-1:none;
+  --shadow-2:0 18px 40px -24px rgba(0,0,0,0.6);
 }
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
 body{
   background:
-    radial-gradient(1200px 600px at 15% -10%, rgba(125,107,171,0.10), transparent 60%),
-    radial-gradient(1000px 500px at 100% 0%, rgba(193,154,73,0.08), transparent 55%),
+    radial-gradient(900px 500px at 50% -180px, rgba(169,104,121,0.16), transparent 70%),
+    radial-gradient(700px 400px at 100% 10%, rgba(130,123,154,0.10), transparent 70%),
     var(--ink);
   color:var(--parchment);
   font-family:var(--sans);
-  line-height:1.45;
+  font-size:15px;
+  line-height:1.5;
   min-height:100vh;
-}
-a{color:inherit;}
-
-.masthead{
-  padding:44px 28px 26px;
-  text-align:left;
-  max-width:1180px;
-  margin:0 auto;
-  border-bottom:1px solid var(--line);
   position:relative;
+  overflow-x:hidden;
+}
+/* cielo estrellado sutil */
+body::before, body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-repeat:repeat;
+}
+body::before{
+  background-image:
+    radial-gradient(1px 1px at 20px 30px, rgba(241,234,223,0.55), transparent 60%),
+    radial-gradient(1px 1px at 140px 90px, rgba(241,234,223,0.35), transparent 60%),
+    radial-gradient(1.4px 1.4px at 260px 160px, rgba(214,189,143,0.6), transparent 60%),
+    radial-gradient(1px 1px at 330px 40px, rgba(241,234,223,0.3), transparent 60%),
+    radial-gradient(1px 1px at 90px 230px, rgba(207,148,163,0.45), transparent 60%);
+  background-size:380px 280px;
+  opacity:0.55;
+}
+body::after{
+  background-image:
+    radial-gradient(1.3px 1.3px at 60px 120px, rgba(241,234,223,0.7), transparent 60%),
+    radial-gradient(1px 1px at 210px 20px, rgba(214,189,143,0.7), transparent 60%),
+    radial-gradient(1.2px 1.2px at 300px 210px, rgba(241,234,223,0.6), transparent 60%);
+  background-size:520px 360px;
+  animation:twinkle 6s ease-in-out infinite alternate;
+}
+@keyframes twinkle{from{opacity:0.15;}to{opacity:0.7;}}
+.masthead,.ledger-wrap,.tabs,.content,footer.note{position:relative;z-index:1;}
+a{color:inherit;}
+::selection{background:rgba(169,104,121,0.45);}
+
+/* ---------- masthead ---------- */
+.masthead{
+  padding:56px 24px 34px;
+  text-align:center;
+  max-width:1100px;
+  margin:0 auto;
 }
 .masthead .eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:0.72rem;text-transform:uppercase;letter-spacing:0.16em;
-  color:var(--gold-dim);margin-bottom:10px;
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:0.7rem;text-transform:uppercase;letter-spacing:0.32em;
+  color:var(--lavender);margin-bottom:14px;
 }
-.masthead .eyebrow::before{content:"✦";color:var(--gold);}
+.masthead .eyebrow::before,.masthead .eyebrow::after{content:"✦";color:var(--gold);font-size:0.6rem;letter-spacing:0;}
 .masthead h1{
   font-family:var(--serif);
-  font-weight:400;
-  font-size:2.6rem;
-  margin:0 0 10px;
-  letter-spacing:0.3px;
-  background:linear-gradient(100deg, var(--gold-bright), var(--parchment) 55%, var(--arcane-bright));
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
+  font-weight:500;
+  font-style:italic;
+  font-size:3.4rem;
+  line-height:1.05;
+  margin:0 0 14px;
+  background:linear-gradient(100deg, var(--gold-bright) 10%, var(--parchment) 50%, var(--arcane-bright) 90%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 .masthead p{
-  margin:0;
+  margin:0 auto;
   color:var(--parchment-dim);
   font-size:0.95rem;
-  max-width:620px;
+  max-width:560px;
+}
+.masthead .moon-rule{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  margin:22px auto 0;color:var(--gold);font-size:0.8rem;max-width:260px;
+}
+.masthead .moon-rule::before,.masthead .moon-rule::after{
+  content:"";flex:1;height:1px;background:linear-gradient(90deg, transparent, var(--gold-dim), transparent);
 }
 
+/* ---------- ledger ---------- */
 .ledger-wrap{
-  position:sticky;
-  top:0;
-  z-index:50;
-  background:rgba(20,18,16,0.94);
-  backdrop-filter:blur(8px);
+  position:sticky;top:0;z-index:50;
+  background:rgba(23,26,43,0.82);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);
   border-bottom:1px solid var(--line);
-  box-shadow:var(--shadow-1);
 }
 .ledger{
-  max-width:1180px;
-  margin:0 auto;
-  padding:16px 28px;
-  display:flex;
-  align-items:center;
-  gap:26px;
-  flex-wrap:wrap;
+  max-width:1100px;margin:0 auto;padding:12px 24px;
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
 }
 .ledger-item{
-  display:flex;flex-direction:column;gap:2px;min-width:100px;
-  padding-right:26px;border-right:1px solid var(--line);
+  display:flex;flex-direction:column;gap:0;min-width:92px;
+  padding:4px 16px;border-right:1px solid var(--line);
 }
 .ledger-item:last-of-type{border-right:none;}
-.ledger-item .lbl{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.09em;color:var(--parchment-dim);}
-.ledger-item .val{font-family:var(--serif);font-size:1.55rem;color:var(--gold);transition:color .15s ease;}
+.ledger-item .lbl{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--parchment-dim);}
+.ledger-item .val{font-family:var(--serif);font-size:1.6rem;font-weight:500;color:var(--gold-bright);line-height:1.2;transition:color .2s ease;}
 .ledger-item.remain .val{color:var(--good);}
 .ledger-item.remain.negative .val{color:var(--bad);}
-.ledger-item.cart-quick{cursor:pointer;border-right:1px solid var(--line);}
-.ledger-item.cart-quick .val{color:var(--arcane-bright);}
-.ledger-item.cart-quick:hover .val{color:var(--arcane);}
-.ledger-input{
-  background:transparent;
-  border:none;
-  border-bottom:1px solid var(--gold-dim);
-  color:var(--gold);
-  font-family:var(--serif);
-  font-size:1.55rem;
-  width:110px;
-  padding:0 2px 3px;
-  transition:border-color .15s ease;
+.ledger-item.cart-quick{cursor:pointer;border-radius:var(--radius-sm);transition:background .2s ease;}
+.ledger-item.cart-quick:hover{background:rgba(169,104,121,0.10);}
+.ledger-item.cart-quick .val{color:var(--arcane-bright);font-size:1.25rem;}
+.ledger input.ledger-input{
+  background:transparent;border:none;border-bottom:1px dashed var(--gold-dim);border-radius:0;
+  color:var(--gold-bright);font-family:var(--serif);font-size:1.6rem;font-weight:500;
+  width:96px;padding:0 2px;box-shadow:none;line-height:1.2;
 }
-.ledger-input:focus{outline:none;border-bottom-color:var(--gold-bright);}
+.ledger input.ledger-input:focus{outline:none;border-bottom:1px solid var(--gold-bright);box-shadow:none;}
 .ledger-actions{margin-left:auto;display:flex;align-items:center;gap:10px;}
 
+/* ---------- tabs ---------- */
 .tabs{
-  max-width:1180px;
-  margin:0 auto;
-  padding:16px 28px;
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-  border-bottom:1px solid var(--line);
+  max-width:1100px;margin:0 auto;padding:22px 24px 6px;
+  display:flex;gap:4px;flex-wrap:wrap;justify-content:center;
 }
 .tab-btn{
-  background:transparent;
-  border:1px solid transparent;
+  position:relative;
+  background:transparent;border:1px solid transparent;
   color:var(--parchment-dim);
-  font-family:var(--sans);
-  font-size:0.84rem;
-  padding:8px 15px;
-  cursor:pointer;
-  border-radius:999px;
-  transition:color .15s ease, background .15s ease, border-color .15s ease, transform .1s ease;
+  font-family:var(--sans);font-size:0.85rem;
+  padding:7px 14px;cursor:pointer;border-radius:999px;
+  transition:color .2s ease, background .2s ease, border-color .2s ease;
 }
-.tab-btn:hover{color:var(--parchment);background:var(--panel-2);}
-.tab-btn:active{transform:scale(0.97);}
+.tab-btn:hover{color:var(--parchment);background:rgba(241,234,223,0.04);}
 .tab-btn.active{
-  color:var(--ink);
-  background:linear-gradient(135deg, var(--gold-bright), var(--gold-dim));
-  border-color:var(--gold-dim);
-  font-weight:600;
+  color:var(--parchment);
+  border-color:rgba(180,151,104,0.45);
+  background:rgba(180,151,104,0.08);
 }
+.tab-btn.active::before{
+  content:"✦";position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+  font-size:0.6rem;color:var(--gold-bright);
+  animation:float 2.8s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,-3px);}}
 .tab-btn.cart-tab{color:var(--arcane-bright);}
-.tab-btn.cart-tab:hover{background:rgba(125,107,171,0.14);}
-.tab-btn.cart-tab.active{
-  background:linear-gradient(135deg, var(--arcane-bright), var(--arcane));
-  border-color:var(--arcane);
-  color:#fff;
-}
+.tab-btn.cart-tab:hover{background:rgba(169,104,121,0.08);}
+.tab-btn.cart-tab.active{border-color:rgba(169,104,121,0.55);background:rgba(169,104,121,0.12);}
+.tab-btn.cart-tab.active::before{color:var(--arcane-bright);}
 
-.content{
-  max-width:1180px;
-  margin:0 auto;
-  padding:30px 28px 90px;
-}
+/* ---------- content ---------- */
+.content{max-width:1100px;margin:0 auto;padding:30px 24px 100px;}
 .panel{display:none;}
-.panel.active{display:block;opacity:1;animation:fadeIn .22s ease forwards;}
-@keyframes fadeIn{ from{opacity:0;transform:translateY(4px);} to{opacity:1;transform:translateY(0);} }
+.panel.active{display:block;animation:fadeIn .35s ease forwards;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
 
 h2.section-title{
-  font-family:var(--serif);
-  font-weight:400;
-  font-size:1.6rem;
-  margin:0 0 6px;
-  color:var(--parchment);
+  font-family:var(--serif);font-weight:500;font-style:italic;
+  font-size:2.1rem;margin:0 0 4px;color:var(--parchment);
   padding-bottom:12px;
-  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;
+  border-bottom:none;
+  background:linear-gradient(90deg, var(--gold-dim), transparent 70%) bottom/100% 1px no-repeat;
 }
-.section-sub{
-  color:var(--parchment-dim);
-  font-size:0.86rem;
-  margin:12px 0 22px;
-}
+.section-sub{color:var(--parchment-dim);font-size:0.88rem;margin:12px 0 26px;max-width:720px;}
 .subtotal-pill{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  background:var(--panel-2);
-  border:1px solid var(--gold-dim);
-  border-radius:20px;
-  padding:5px 13px;
-  font-size:0.8rem;
-  color:var(--parchment-dim);
-  margin-left:10px;
-  box-shadow:var(--shadow-1);
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--sans);font-style:normal;
+  border:1px solid var(--line-strong);border-radius:999px;
+  padding:3px 12px;font-size:0.74rem;color:var(--parchment-dim);
+  margin-left:0;
 }
 .subtotal-pill b{color:var(--gold-bright);font-weight:700;}
 
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
-@media(max-width:820px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+@media(max-width:860px){.grid-2,.grid-3{grid-template-columns:1fr;}}
 
 .card{
-  background:var(--panel);
+  background:linear-gradient(180deg, rgba(241,234,223,0.025), transparent), var(--panel);
   border:1px solid var(--line);
   border-radius:var(--radius);
-  padding:15px 17px;
-  box-shadow:var(--shadow-1);
-  transition:border-color .15s ease, transform .12s ease;
+  padding:16px 18px;
+  transition:border-color .25s ease, box-shadow .25s ease, transform .25s ease;
 }
-.card:hover{border-color:var(--gold-dim);}
-.card-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-}
+.card:hover{border-color:rgba(180,151,104,0.35);box-shadow:0 0 0 4px rgba(180,151,104,0.04), var(--shadow-2);}
+.card-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
 .card-row + .card-row{margin-top:10px;}
-.card-name{font-size:0.92rem;color:var(--parchment);font-weight:600;}
-.card-cost{font-size:0.82rem;color:var(--gold-dim);min-width:64px;text-align:right;}
+.card-name{font-family:var(--serif);font-size:1.2rem;font-weight:600;color:var(--parchment);}
+.card-cost{font-size:0.8rem;color:var(--gold);min-width:60px;text-align:right;}
 
 select, input[type="number"], input[type="text"]{
-  background:var(--panel-2);
-  border:1px solid var(--line);
+  background:rgba(23,26,43,0.7);
+  border:1px solid var(--line-strong);
   color:var(--parchment);
   border-radius:var(--radius-sm);
-  padding:6px 9px;
-  font-size:0.85rem;
-  font-family:var(--sans);
-  transition:border-color .15s ease;
+  padding:7px 10px;
+  font-size:0.86rem;font-family:var(--sans);
+  transition:border-color .2s ease, box-shadow .2s ease;
 }
-select:hover, input:hover{border-color:var(--gold-dim);}
-select:focus,input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(193,154,73,0.15);}
+select{
+  -webkit-appearance:none;appearance:none;padding-right:28px;cursor:pointer;
+  background-image:linear-gradient(45deg, transparent 50%, var(--gold) 50%), linear-gradient(135deg, var(--gold) 50%, transparent 50%);
+  background-position:calc(100% - 15px) 52%, calc(100% - 10px) 52%;
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat;
+}
+select option, select optgroup{background:var(--panel);color:var(--parchment);}
+select:hover, input:hover{border-color:rgba(180,151,104,0.45);}
+select:focus,input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(180,151,104,0.15);}
+input::placeholder{color:rgba(167,161,182,0.6);}
 
-/* buy-row: nivel actual -> nivel nuevo -> preview -> agregar */
 .buy-row{
-  display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;
-  padding-top:12px;border-top:1px dashed var(--line);
+  display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;margin-top:14px;
+  padding-top:14px;border-top:1px dashed var(--line-strong);
 }
-.buy-row .field{display:flex;flex-direction:column;gap:3px;}
-.buy-row .field label{font-size:0.64rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--parchment-dim);}
+.buy-row .field{display:flex;flex-direction:column;gap:4px;}
+.buy-row .field label, .adder .field label{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--parchment-dim);}
 .buy-row select{min-width:64px;}
-.buy-preview{
-  font-size:0.85rem;color:var(--gold-bright);font-weight:700;min-width:70px;text-align:center;
-}
+.buy-preview{font-family:var(--serif);font-size:1.15rem;color:var(--gold-bright);font-weight:600;min-width:64px;text-align:center;padding-bottom:4px;}
 .buy-preview.zero{color:var(--parchment-dim);font-weight:400;}
-.arrow{color:var(--gold-dim);font-size:1rem;padding-top:16px;}
+.arrow{color:var(--gold-dim);font-size:1rem;padding-bottom:7px;}
 
 .btn{
-  background:linear-gradient(135deg, var(--gold-bright), var(--gold-dim));
-  color:#171410;
-  border:none;
-  border-radius:var(--radius-sm);
-  padding:8px 16px;
-  font-size:0.82rem;
-  font-weight:700;
-  cursor:pointer;
-  box-shadow:0 2px 8px rgba(193,154,73,0.18);
-  transition:filter .15s ease, opacity .15s ease, transform .1s ease;
+  background:var(--gold);
+  color:#1b1e30;
+  border:none;border-radius:999px;
+  padding:8px 18px;
+  font-family:var(--sans);font-size:0.82rem;font-weight:700;letter-spacing:0.01em;
+  cursor:pointer;position:relative;
+  transition:background .2s ease, transform .15s ease, box-shadow .2s ease, opacity .2s ease;
 }
-.btn:hover{filter:brightness(1.08);}
-.btn:active{transform:scale(0.97);}
-.btn:disabled{opacity:0.32;cursor:not-allowed;box-shadow:none;filter:none;}
-.btn.ghost{
-  background:none;border:1px solid var(--line);color:var(--parchment-dim);box-shadow:none;
-}
-.btn.ghost:hover{color:var(--parchment);border-color:var(--parchment-dim);filter:none;}
-.btn.arcane{background:linear-gradient(135deg, var(--arcane-bright), var(--arcane));color:#fff;box-shadow:0 2px 10px rgba(125,107,171,0.28);}
-.btn.arcane:hover{filter:brightness(1.1);}
+.btn:hover{background:var(--gold-bright);box-shadow:0 0 18px rgba(214,189,143,0.35);}
+.btn:active{transform:scale(0.96);}
+.btn:disabled{opacity:0.28;cursor:not-allowed;box-shadow:none;background:var(--gold);}
+.btn.ghost{background:none;border:1px solid var(--line-strong);color:var(--parchment-dim);}
+.btn.ghost:hover{color:var(--parchment);border-color:var(--parchment-dim);box-shadow:none;}
+.btn.arcane{background:var(--arcane);color:var(--parchment);}
+.btn.arcane:hover{background:var(--arcane-bright);color:#1b1e30;box-shadow:0 0 18px rgba(207,148,163,0.35);}
 
-/* skill category block */
+/* chispitas mágicas */
+.sparkle{
+  position:fixed;pointer-events:none;z-index:999;font-size:12px;color:var(--gold-bright);
+  animation:sparkle .75s ease-out forwards;
+}
+@keyframes sparkle{
+  from{opacity:1;transform:translate(-50%,-50%) scale(0.6) rotate(0deg);}
+  to{opacity:0;transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.1) rotate(160deg);}
+}
+
+/* bloques de habilidades */
 .skill-cat{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-left:3px solid var(--gold-dim);
-  border-radius:var(--radius);
-  padding:14px 16px;
-  margin-bottom:14px;
-  box-shadow:var(--shadow-1);
+  background:transparent;border:none;border-radius:0;padding:0;margin-bottom:30px;
 }
 .skill-cat > .cat-head{
   display:flex;justify-content:space-between;align-items:baseline;
-  border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:10px;
+  border-bottom:none;padding-bottom:0;margin-bottom:12px;
 }
 .skill-cat > .cat-head h3{
-  font-family:var(--serif);font-weight:400;font-size:1.1rem;margin:0;color:var(--gold-bright);
+  font-family:var(--serif);font-weight:500;font-style:italic;font-size:1.35rem;margin:0;color:var(--gold-bright);
 }
+.skill-cat > .cat-head h3::before{content:"✧ ";color:var(--arcane-bright);font-style:normal;font-size:0.9rem;}
 .skill-cat .cat-head .stat-cost{font-size:0.78rem;color:var(--gold-dim);}
 
-/* add-row component */
 .adder{
   display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;
   background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
-  padding:14px 16px;margin-bottom:16px;
-  box-shadow:var(--shadow-1);
+  padding:16px 18px;margin-bottom:18px;
 }
 .adder select{flex:1;min-width:150px;}
-.adder .field{display:flex;flex-direction:column;gap:3px;}
-.adder .field label{font-size:0.64rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--parchment-dim);}
+.adder .field{display:flex;flex-direction:column;gap:4px;}
 
-.chip-list{display:flex;flex-direction:column;gap:7px;}
+.chip-list{display:flex;flex-direction:column;gap:8px;}
 .chip{
   display:flex;align-items:center;justify-content:space-between;
-  background:var(--panel-2);border:1px solid var(--line);border-left:3px solid var(--gold-dim);
+  background:var(--panel);border:1px solid var(--line);
   border-radius:var(--radius-sm);
-  padding:9px 12px;font-size:0.85rem;gap:10px;flex-wrap:wrap;
-  transition:border-color .15s ease, transform .1s ease;
+  padding:10px 14px;font-size:0.86rem;gap:10px;flex-wrap:wrap;
+  transition:border-color .2s ease, transform .2s ease;
 }
-.chip:hover{border-color:var(--gold-dim);transform:translateX(2px);}
+.chip:hover{border-color:rgba(180,151,104,0.35);transform:translateX(3px);}
 .chip .chip-info{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
 .chip .chip-cost{color:var(--gold-bright);font-weight:700;font-size:0.82rem;}
 .chip .cat-tag{
-  font-size:0.64rem;text-transform:uppercase;letter-spacing:0.05em;
-  color:#fff;background:var(--arcane);border-radius:10px;
-  padding:2px 8px;font-weight:600;
+  font-size:0.6rem;text-transform:uppercase;letter-spacing:0.12em;
+  color:var(--arcane-bright);background:rgba(169,104,121,0.12);
+  border:1px solid rgba(169,104,121,0.35);border-radius:999px;
+  padding:2px 9px;font-weight:700;
 }
 .chip .chip-remove{
   background:none;border:none;color:var(--parchment-dim);cursor:pointer;
-  font-size:1rem;line-height:1;padding:2px 6px;border-radius:4px;
-  transition:color .15s ease, background .15s ease;
+  font-size:0.95rem;line-height:1;padding:4px 7px;border-radius:999px;
+  transition:color .2s ease, background .2s ease;
 }
-.chip .chip-remove:hover{color:var(--bad);background:rgba(193,96,74,0.12);}
-.empty-note{color:var(--parchment-dim);font-size:0.85rem;font-style:italic;padding:14px;text-align:center;background:var(--panel);border:1px dashed var(--line);border-radius:var(--radius);}
+.chip .chip-remove:hover{color:var(--bad);background:rgba(217,131,119,0.12);}
+.empty-note{
+  color:var(--parchment-dim);font-size:0.88rem;font-style:italic;font-family:var(--serif);
+  padding:22px;text-align:center;border:1px dashed var(--line-strong);border-radius:var(--radius);
+}
+.empty-note::before{content:"☾  ";color:var(--gold);font-style:normal;}
 
-/* checklist (talentos) */
+/* talentos */
 .check-grid{
-  display:grid;grid-template-columns:repeat(2,1fr);gap:2px 18px;
+  display:grid;grid-template-columns:repeat(2,1fr);gap:0 28px;
   background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
-  padding:6px 14px;box-shadow:var(--shadow-1);
+  padding:8px 18px;
 }
 @media(max-width:700px){.check-grid{grid-template-columns:1fr;}}
 .check-row{
-  display:flex;align-items:center;gap:8px;
-  padding:8px 4px;border-bottom:1px dashed var(--line);
-  font-size:0.85rem;transition:background .12s ease;
+  display:flex;align-items:center;gap:10px;
+  padding:9px 4px;border-bottom:1px solid var(--line);
+  font-size:0.86rem;transition:color .2s ease;
 }
-.check-row:hover{background:var(--panel-2);}
+.check-row:hover{color:var(--gold-bright);}
 .check-row label{flex:1;cursor:pointer;}
 .check-row .price{color:var(--gold-dim);font-size:0.78rem;min-width:44px;text-align:right;}
-.check-row input[type=checkbox]{accent-color:var(--gold);width:15px;height:15px;}
+.check-row input[type=checkbox]{accent-color:var(--arcane);width:15px;height:15px;cursor:pointer;}
 
 /* arcanos */
 .arc-group{
-  background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--arcane);border-radius:var(--radius);
-  padding:14px 16px;margin-bottom:14px;box-shadow:var(--shadow-1);
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 18px;
 }
-.arc-group h3{font-family:var(--serif);font-weight:400;font-size:1.1rem;margin:0 0 10px;color:var(--parchment);}
-.arc-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--line);}
+.arc-group h3{font-family:var(--serif);font-weight:500;font-style:italic;font-size:1.35rem;margin:0 0 8px;color:var(--parchment);}
+.arc-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);}
 .arc-row:last-of-type{border-bottom:none;}
-.arc-row label{font-size:0.85rem;color:var(--parchment);}
+.arc-row label{font-size:0.88rem;color:var(--parchment);}
 .arc-row label small{display:block;color:var(--parchment-dim);font-size:0.72rem;}
 .arc-row input[type=number]{width:64px;text-align:center;}
-.warn-text{color:var(--bad);font-size:0.75rem;margin-top:8px;padding:6px 8px;background:rgba(193,96,74,0.1);border-radius:var(--radius-sm);}
+.warn-text{
+  color:var(--bad);font-size:0.76rem;margin-top:10px;padding:7px 11px;
+  background:rgba(217,131,119,0.08);border:1px solid rgba(217,131,119,0.22);border-radius:var(--radius-sm);
+}
 
 /* armas */
 .weapon-card{
   background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
-  padding:18px 20px;margin-bottom:18px;box-shadow:var(--shadow-2);
+  padding:20px 22px;margin-bottom:18px;
 }
-.weapon-card h3{font-family:var(--serif);font-weight:400;font-size:1.2rem;margin:0 0 14px;color:var(--gold-bright);}
-.weapon-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
-@media(max-width:820px){.weapon-cols{grid-template-columns:1fr;}}
-.weapon-col h4{font-size:0.85rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--parchment-dim);margin:0 0 8px;}
+.weapon-card h3{font-family:var(--serif);font-weight:500;font-style:italic;font-size:1.45rem;margin:0 0 14px;color:var(--gold-bright);}
+.weapon-cols{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+@media(max-width:860px){.weapon-cols{grid-template-columns:1fr;}}
+.weapon-col h4{font-size:0.66rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--parchment-dim);margin:0 0 6px;font-weight:700;}
 .weapon-summary{
-  display:flex;gap:18px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);
-  flex-wrap:wrap;font-size:0.82rem;color:var(--parchment-dim);
+  display:flex;gap:18px;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line-strong);
+  flex-wrap:wrap;font-size:0.82rem;color:var(--parchment-dim);align-items:center;
 }
-.weapon-summary b{color:var(--gold);}
-.slots-bad{color:var(--bad);}
-.slots-ok{color:var(--good);}
+.weapon-summary b{color:var(--gold-bright);}
+.slots-bad{color:var(--bad)!important;}
+.slots-ok{color:var(--good)!important;}
 
 /* carrito */
 .cart-hero{
   display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;
-  background:linear-gradient(135deg, rgba(125,107,171,0.16), var(--panel) 60%);
-  border:1px solid var(--arcane);border-radius:var(--radius);
-  padding:22px 26px;margin-bottom:22px;box-shadow:var(--shadow-2);
+  background:
+    radial-gradient(400px 160px at 0% 0%, rgba(169,104,121,0.22), transparent 70%),
+    var(--panel);
+  border:1px solid rgba(169,104,121,0.35);border-radius:var(--radius);
+  padding:24px 28px;margin-bottom:24px;
 }
-.cart-hero .cart-total-num{font-family:var(--serif);font-size:2.3rem;color:var(--arcane-bright);}
-.cart-hero .cart-total-lbl{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--parchment-dim);}
+.cart-hero .cart-total-num{font-family:var(--serif);font-size:2.6rem;font-weight:500;color:var(--parchment);line-height:1.1;}
+.cart-hero .cart-total-lbl{font-size:0.66rem;text-transform:uppercase;letter-spacing:0.16em;color:var(--parchment-dim);}
 .cart-section-title{
-  font-family:var(--serif);font-weight:400;color:var(--gold-bright);margin:24px 0 12px;font-size:1.1rem;
-  padding-bottom:6px;border-bottom:1px solid var(--line);
+  font-family:var(--serif);font-weight:500;font-style:italic;color:var(--gold-bright);
+  margin:28px 0 12px;font-size:1.35rem;padding-bottom:6px;
+  background:linear-gradient(90deg, var(--line-strong), transparent 70%) bottom/100% 1px no-repeat;
 }
 
-footer.note{
-  max-width:1180px;margin:0 auto;padding:0 28px 60px;color:var(--parchment-dim);font-size:0.78rem;
-}
+footer.note{max-width:1100px;margin:0 auto;padding:0 24px 60px;color:var(--parchment-dim);font-size:0.78rem;}
 
-.summary-toolbar{
-  display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;
-}
-.copy-status{font-size:0.8rem;color:var(--good);opacity:0;transition:opacity .2s ease;}
+.summary-toolbar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.copy-status{font-size:0.8rem;color:var(--good);opacity:0;transition:opacity .25s ease;}
 .copy-status.show{opacity:1;}
 .summary-box{
   background:var(--panel);
   border:1px solid var(--line);
-  border-top:3px solid var(--gold-dim);
   border-radius:var(--radius);
-  padding:24px 28px;
-  font-family:"Courier New",Consolas,monospace;
-  font-size:0.88rem;
-  line-height:1.8;
-  white-space:pre-wrap;
-  color:var(--parchment);
-  max-height:70vh;
-  overflow-y:auto;
-  box-shadow:var(--shadow-2);
+  padding:26px 30px;
+  font-family:"Courier Prime","Courier New",Consolas,monospace;
+  font-size:0.88rem;line-height:1.85;
+  white-space:pre-wrap;color:var(--parchment);
+  max-height:70vh;overflow-y:auto;
 }
 .summary-box::-webkit-scrollbar{width:8px;}
-.summary-box::-webkit-scrollbar-track{background:var(--panel-2);}
+.summary-box::-webkit-scrollbar-track{background:transparent;}
 .summary-box::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:4px;}
-.summary-box .sec-heading{
-  color:var(--gold-bright);
-  font-weight:700;
-  letter-spacing:0.03em;
+.summary-box .sec-heading{color:var(--gold-bright);font-weight:700;letter-spacing:0.06em;}
+.summary-box .sec-total{color:var(--arcane-bright);font-weight:700;}
+
+/* veteranía y legendarias */
+.perk-list{display:flex;flex-direction:column;gap:14px;}
+.perk-card{position:relative;}
+.perk-card.legend{
+  background:
+    radial-gradient(300px 120px at 100% 0%, rgba(169,104,121,0.12), transparent 70%),
+    var(--panel);
 }
-.summary-box .sec-total{
-  color:var(--arcane-bright);
-  font-weight:700;
+.perk-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;}
+.perk-head h3{font-family:var(--serif);font-weight:500;font-style:italic;font-size:1.45rem;margin:0;color:var(--gold-bright);}
+.perk-card.legend .perk-head h3{color:var(--arcane-bright);}
+.perk-card.legend .perk-head h3::after{content:" ✦";font-style:normal;font-size:0.75rem;color:var(--gold);}
+.perk-price{font-size:0.8rem;color:var(--gold-bright);font-weight:700;white-space:nowrap;}
+.perk-price .pl{color:var(--arcane-bright);}
+.perk-req{
+  display:inline-block;margin-top:8px;font-size:0.74rem;color:var(--gold);
+  border:1px solid rgba(180,151,104,0.3);border-radius:999px;padding:2px 11px;
+}
+.perk-desc{color:var(--parchment-dim);font-size:0.86rem;margin:10px 0 0;max-width:820px;}
+.perk-limit{color:var(--lavender);font-size:0.78rem;margin-top:8px;font-style:italic;max-width:820px;}
+.perk-count{font-size:0.76rem;color:var(--arcane-bright);padding-bottom:8px;}
+.perk-card .buy-row select, .perk-card .buy-row input[type=text]{min-width:200px;}
+.legend-inline{margin-top:34px;}
+.legend-inline .cart-section-title{color:var(--arcane-bright);}
+.info-banner{
+  border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 20px;margin-bottom:20px;font-size:0.88rem;color:var(--parchment-dim);
+  background:rgba(130,123,154,0.07);
+}
+.info-banner b{color:var(--parchment);}
+.info-banner a, .perk-desc a{color:var(--gold-bright);text-decoration-color:rgba(214,189,143,0.4);text-underline-offset:3px;}
+.pd-field{display:flex;align-items:center;gap:10px;margin-top:12px;}
+.pd-field input{width:70px;text-align:center;}
+.ledger-item.pl .val{color:var(--arcane-bright);}
+.ledger input.ledger-input.pl-input{color:var(--arcane-bright);border-bottom-color:var(--arcane);width:70px;}
+.ledger-item.pl.negative .val{color:var(--bad);}
+
+@media(max-width:640px){
+  .masthead h1{font-size:2.5rem;}
+  .ledger{padding:8px 16px;}
+  .ledger-item{padding:4px 10px;min-width:80px;}
+  .ledger-item .val, .ledger input.ledger-input{font-size:1.3rem;}
+  .content,.tabs{padding-left:16px;padding-right:16px;}
+}
+@media (prefers-reduced-motion: reduce){
+  body::after,.tab-btn.active::before{animation:none;}
+  .panel.active{animation:none;}
 }
 </style>
 </head>
@@ -421,6 +467,7 @@ footer.note{
   <span class="eyebrow">Canjes de personaje</span>
   <h1>Ficha de Canjes</h1>
   <p>Calculadora de canje de grageas para personajes. Elegí el nivel actual y el nivel al que querés subir: el sistema calcula el costo acumulativo real de la mejora y lo suma al carrito.</p>
+  <div class="moon-rule">☾</div>
 </div>
 
 <div class="ledger-wrap">
@@ -436,6 +483,14 @@ footer.note{
     <div class="ledger-item remain">
       <span class="lbl">Restantes</span>
       <span class="val" id="valRestantes">0</span>
+    </div>
+    <div class="ledger-item pl">
+      <span class="lbl">Puntos Legendarios</span>
+      <input id="inpPL" class="ledger-input pl-input" type="number" value="0" placeholder="0">
+    </div>
+    <div class="ledger-item pl remain-pl">
+      <span class="lbl">PL restantes</span>
+      <span class="val" id="valPLRestantes">0</span>
     </div>
     <div class="ledger-item cart-quick" id="cartQuickNav">
       <span class="lbl">Carrito</span>
@@ -585,12 +640,82 @@ const OBJETO_TIERS = [
   {key:"objAva", label:"Objetos Avanzados", price:600}
 ];
 
+/* ---------- VETERANÍA ---------- */
+const PROEZAS = {
+  "Vigor": ["Atletismo","Pelea"],
+  "Destreza": ["Esquiva","Latrocinio","Sigilo","Vuelo"],
+  "Carisma": ["Coordinación","Intimidación","Oratoria","Seducción","Subterfugio"],
+  "Voluntad": ["Arte / Artesanía (X)","Estilo","Frialdad"],
+  "Percepción": ["Alerta","Consciencia","Empatía","Iniciativa","Investigación"],
+  "Inteligencia": ["Adivinación","Arcanismo","Callejeo","Cultura Mágica","Cultura Muggle","Herbología","Magizoología","Medicina","Política","Supervivencia"],
+  "Poder": ["Duelo","Pociones","Rituales"]
+};
+const LINK_PD = "https://hp-avada-kedavra.foroactivo.com/t23040-6-reglas-especiales#337050";
+const LINK_REGISTRO = "https://hp-avada-kedavra.foroactivo.com/t23263-registro-de-veterania";
+const ALL_SKILLS = Object.values(SKILL_GROUPS).flat();
+
+const VETERANIA = [
+  {key:"proeza", nombre:"Proeza", price:300, pl:3,
+   req:"Requiere sumar un bonificador total de +9 entre Habilidad y STAT.",
+   desc:"Te permite canjear una de las Proezas de la lista. Puedes realizar este canje tantas veces como Puntos de Destino poseas (es decir, si tienes 4 PDs, puedes adquirir, siempre que cumplas los requisitos, un total de 4 Proezas).",
+   field:{type:"proeza", label:"Proeza"}},
+  {key:"pd", nombre:"Punto de Destino", price:1000, pl:0,
+   desc:`Aumentas en uno tu nivel de Destino, y los Puntos de Destino disponibles. Tienes la descripción de los Puntos de Destino <a href="${LINK_PD}" target="_blank" rel="noopener">aquí</a>.`,
+   limit:"Máximo un canjeo cada año de veteranía.", maxPerYear:1},
+  {key:"limite", nombre:"+1 al límite de 1 STAT", price:500, pl:0,
+   req:"Límite actual del STAT entre 1 y 4.",
+   desc:"Cuando tienes un STAT en un nivel que va del 1 al 4, gastando 500 grageas podrías conseguir subir el límite de STAT en una categoría. Esto es importante para poder superar tus límites. No se puede tener una diferencia de dos puntos entre los límites de tus STATs (es decir, si tu límite en un STAT es de 5, todos los demás STATs tienen que tener un límite de 5 o de 4, no puedes tener ninguno con un límite de 3). También es importante aclarar que estas 500 grageas se usan para ampliar el límite, no el STAT en sí mismo. Una vez los STATs estén al 5, este canje se vuelve obsoleto y pasamos a considerar el siguiente (Talentoso).",
+   limit:"Máximo dos canjeos cada año.", maxPerYear:2,
+   field:{type:"limite"}},
+  {key:"talentoso", nombre:"Talentoso", price:1000, pl:0,
+   req:"Requiere tener todos tus Atributos con un Límite de 5 (límite, no valor).",
+   desc:"Cuando ya tienes todos tus Atributos con un Límite de 5, puedes adquirir un Talentoso para aumentar el límite de uno de ellos todavía más. Un Talentoso es el equivalente a un cambio de límite de 5 a 7 (o sea, dos subidas), y, además, te permite que todas las Habilidades asociadas a dicho Atributo puedan adquirirse en “Maestro”, cuando antes sólo podías conseguirlas en Experto.",
+   limit:"Cada Etapa tiene un número máximo de huecos para Talentosos que puede canjear sin necesidad de esperar a lograr Veteranía. Este número va subiendo en uno cada año, siempre que todos los Atributos tengan sus límites a 5, no antes (por ejemplo, un Joven podría canjear dos +1 Límite Atributo con la primera Veteranía, otros dos +1 Límite de Atributo con la segunda y su primer Talentoso con la tercera Veteranía).",
+   field:{type:"select", label:"Atributo", options:STATS}}
+];
+
+/* ---------- CARACTERÍSTICAS LEGENDARIAS ---------- */
+const LEGENDARIAS = [
+  {key:"trasfEsp", nombre:"Trasfondo General Específico Legendario", price:300, pl:3,
+   req:"Requiere tener un Trasfondo Específico al V.",
+   desc:"Puedes subir un Trasfondo Específico que tuvieras a nivel V al nivel VI.",
+   field:{type:"text", label:"Trasfondo específico", ph:"Ej.: Informantes — Bajos fondos — Ladrones"}},
+  {key:"trasfGen", nombre:"Trasfondo General Avanzado Legendario", price:600, pl:6,
+   req:"Requiere tener un Trasfondo General al V.",
+   desc:"Puedes subir un Trasfondo General que tuvieras a nivel V al nivel VI.",
+   field:{type:"select", label:"Trasfondo general", options:TRASF_GENERALES}},
+  {key:"habLeg", nombre:"Habilidad Legendaria", price:750, pl:7, inlineTab:"skills",
+   req:"Requiere tener una Habilidad a nivel Maestro.",
+   desc:"Puedes subir una Habilidad de Maestro (+7) a Legendario (+9).",
+   field:{type:"select", label:"Habilidad", options:ALL_SKILLS}},
+  {key:"ventLeg", nombre:"Ventaja Legendaria", price:1000, pl:10,
+   req:"Requiere tener una Ventaja al III.",
+   desc:"Puedes subir una Ventaja que tuvieras a nivel III al nivel IV (la Orden de Merlín permite inventar su propio título narrativo).",
+   field:{type:"text", label:"Ventaja", ph:"Nombre de la ventaja"}},
+  {key:"animalLeg", nombre:"Compañero Animal Legendario", price:1000, pl:10,
+   req:"Requiere Especialización Magizoólogo del mismo nivel que requiera el compañero animal de ese tipo y Experto [Animal o Bestia escogida].",
+   desc:"Eres capaz de unir a tu vida a una criatura mítica y especial. Ya sea una famosa ave fénix, o quizás un basilisco, o una acromántula gigante… eres capaz de trascender la mayoría de animales y criaturas domesticables para conseguir impresionar allá donde vayas.",
+   field:{type:"text", label:"Criatura", ph:"Ej.: Fénix"}},
+  {key:"atrLeg", nombre:"Atributo Legendario", price:1750, pl:17, inlineTab:"stats",
+   req:"Requiere tener un Atributo al 7.",
+   desc:"Puedes subir un Atributo del 7 al 8.",
+   field:{type:"select", label:"Atributo", options:STATS}},
+  {key:"arcLeg", nombre:"Arcano Legendario", price:3000, pl:30,
+   desc:"Has creado un arcano único y especial, el típico que la gente tacharía de imposible. Habla con los Encargados del Sistema para diseñar un arcano único para tu ficha. Este arcano no podrá imitarse por nadie más que tú (aunque otros pueden conseguir efectos mecánicos similares usando narrativas diferentes), y será más fuerte que cualquier arcano avanzado virtuoso del sistema.",
+   field:{type:"text", label:"Nombre del arcano", ph:"Opcional"}},
+  {key:"relLeg", nombre:"Reliquia Legendaria", price:3000, pl:30,
+   desc:"Te has hecho con un objeto único y especial, el típico sobre el que se escriben las historias. Se escriben historias sobre el Sombrero Seleccionador, sobre el Cáliz de Fuego o la espada de Godric Gryffindor… y, ahora, también sobre tu Reliquia. Habla con el autor del sistema y trabaja con él para diseñar un objeto único para tu ficha. Este objeto no podrá imitarse por nadie más que tú (aunque otros pueden conseguir efectos mecánicos similares usando narrativas diferentes), y será más fuerte que cualquier objeto avanzado del sistema.",
+   field:{type:"text", label:"Nombre de la reliquia", ph:"Opcional"}}
+];
+
 /* =========================================================
    ESTADO
    ========================================================= */
 function makeInitialState(){
   return {
     disponibles: 0,
+    plDisponibles: 0,
+    pdActuales: 0,
     cart: [], // {id, category, line, cost}
     statsBase: Object.fromEntries(STATS.map(s=>[s,0])),
     statsTarget: Object.fromEntries(STATS.map(s=>[s,1])),
@@ -622,8 +747,18 @@ function costoSubida(table, actual, nuevo){
   if(nuevo<=actual) return 0;
   return (table.acumulado[nuevo]||0) - (table.acumulado[actual]||0);
 }
-function addToCart(category, line, cost){
-  state.cart.push({id:nextId(), category, line, cost});
+function addToCart(category, line, cost, pl=0, key=null){
+  state.cart.push({id:nextId(), category, line, cost, pl, key});
+}
+function plTotal(){
+  return state.cart.reduce((sum,i)=> sum + (i.pl||0), 0);
+}
+function cartCountKey(key){
+  return state.cart.filter(i=>i.key===key).length;
+}
+function fmt(n){ return Number(n).toLocaleString("es-ES"); }
+function precioTexto(price, pl){
+  return pl>0 ? `${price} grageas y ${pl} Puntos Legendarios` : `${price} grageas`;
 }
 function cartTotal(){
   return state.cart.reduce((sum,i)=> sum + i.cost, 0);
@@ -697,10 +832,18 @@ function renderLedger(){
   restEl.textContent = restantes.toLocaleString("es-ES");
   restEl.parentElement.classList.toggle("negative", restantes < 0);
   document.getElementById("valCartQuick").textContent = `${state.cart.length} ítem(s) · ${cartTotal().toLocaleString("es-ES")} gr`;
+  const plRest = state.plDisponibles - plTotal();
+  const plEl = document.getElementById("valPLRestantes");
+  plEl.textContent = plRest.toLocaleString("es-ES");
+  plEl.parentElement.classList.toggle("negative", plRest < 0);
 }
 
 document.getElementById("inpDisponibles").addEventListener("input", e=>{
   state.disponibles = Number(e.target.value)||0;
+  renderLedger();
+});
+document.getElementById("inpPL").addEventListener("input", e=>{
+  state.plDisponibles = Number(e.target.value)||0;
   renderLedger();
 });
 document.getElementById("cartQuickNav").addEventListener("click", ()=> activateTab("carrito"));
@@ -711,6 +854,7 @@ let resetArmTimeout = null;
 function doFullReset(){
   state = makeInitialState();
   document.getElementById("inpDisponibles").value = 0;
+  document.getElementById("inpPL").value = 0;
   renderAll();
 }
 resetBtn.addEventListener("click", ()=>{
@@ -740,17 +884,19 @@ resetBtn.addEventListener("click", ()=>{
    TABS
    ========================================================= */
 const TABS = [
-  {id:"stats", label:"💪 Estadísticas"},
-  {id:"skills", label:"🎯 Habilidades"},
-  {id:"especial", label:"⭐ Especializaciones"},
-  {id:"trasfondos", label:"📜 Trasfondos"},
-  {id:"formacion", label:"🎓 Formación e Idiomas"},
-  {id:"talentos", label:"🌀 Talentos"},
-  {id:"arcanos", label:"🔮 Arcanos"},
-  {id:"armas", label:"🗡️ Armas"},
-  {id:"personaje", label:"🧙 Personaje"},
-  {id:"carrito", label:"🛒 Carrito", cart:true},
-  {id:"resumen", label:"📋 Resumen para copiar"}
+  {id:"stats", label:"Estadísticas"},
+  {id:"skills", label:"Habilidades"},
+  {id:"especial", label:"Especializaciones"},
+  {id:"trasfondos", label:"Trasfondos"},
+  {id:"formacion", label:"Formación e Idiomas"},
+  {id:"talentos", label:"Talentos"},
+  {id:"arcanos", label:"Arcanos"},
+  {id:"armas", label:"Armas"},
+  {id:"personaje", label:"Personaje"},
+  {id:"veterania", label:"Veteranía"},
+  {id:"legendarias", label:"Legendarias"},
+  {id:"carrito", label:"Carrito", cart:true},
+  {id:"resumen", label:"Resumen para copiar"}
 ];
 const RENDERERS = {};
 
@@ -1361,12 +1507,127 @@ RENDERERS.personaje = function(){
   });
 };
 
+/* ---------- VETERANÍA / LEGENDARIAS (helper) ---------- */
+function buildPerkCard(item, category, legend){
+  const card = document.createElement("div");
+  card.className = "card perk-card" + (legend ? " legend" : "");
+  const count = cartCountKey(item.key);
+  const priceHtml = item.pl>0
+    ? `${fmt(item.price)} gr <span class="pl">+ ${item.pl} PL</span>`
+    : `${fmt(item.price)} gr`;
+  card.innerHTML = `
+    <div class="perk-head"><h3>${item.nombre}</h3><span class="perk-price">${priceHtml}</span></div>
+    ${item.req ? `<div class="perk-req">${item.req}</div>` : ""}
+    <p class="perk-desc">${item.desc}</p>
+    ${item.limit ? `<div class="perk-limit">${item.limit}</div>` : ""}`;
+
+  const row = document.createElement("div");
+  row.className = "buy-row";
+  const f = item.field;
+  let fieldHtml = "";
+  if(f && f.type==="select"){
+    fieldHtml = `<div class="field"><label>${f.label}</label><select class="perk-detail">${f.options.map(o=>`<option value="${o}">${o}</option>`).join("")}</select></div>`;
+  } else if(f && f.type==="text"){
+    fieldHtml = `<div class="field"><label>${f.label}</label><input type="text" class="perk-detail" placeholder="${f.ph||""}"></div>`;
+  } else if(f && f.type==="proeza"){
+    const groups = Object.entries(PROEZAS).map(([stat,list])=>
+      `<optgroup label="${stat}">${list.map(n=>`<option value="${n}|${stat}">${n}</option>`).join("")}</optgroup>`).join("");
+    fieldHtml = `<div class="field"><label>${f.label}</label><select class="perk-detail">${groups}</select></div>`;
+  } else if(f && f.type==="limite"){
+    fieldHtml = `<div class="field"><label>STAT</label><select class="perk-detail">${STATS.map(o=>`<option value="${o}">${o}</option>`).join("")}</select></div>
+      <div class="field"><label>Límite actual</label><select class="perk-lim">${[1,2,3,4].map(l=>`<option value="${l}">${l} → ${l+1}</option>`).join("")}</select></div>`;
+  }
+  row.innerHTML = `${fieldHtml}
+    <button class="btn ${legend?"arcane":""}">Agregar al carrito</button>
+    <span class="perk-count">${count>0 ? `En el carrito: ${count}` : ""}</span>`;
+  card.appendChild(row);
+
+  if(item.maxPerYear && count > item.maxPerYear){
+    const w = document.createElement("div");
+    w.className = "warn-text";
+    w.textContent = `Tenés ${count} en el carrito: el máximo es ${item.maxPerYear} por año de veteranía. Si estás canjeando varios años acumulados, ignorá este aviso.`;
+    card.appendChild(w);
+  }
+  if(item.key==="proeza"){
+    const pdTotal = state.pdActuales + cartCountKey("pd");
+    if(count > 0 && count > pdTotal){
+      const w = document.createElement("div");
+      w.className = "warn-text";
+      w.textContent = `Tenés ${count} Proeza(s) en el carrito pero ${pdTotal} Punto(s) de Destino (contando los que estás canjeando). Recordá que sólo podés tener tantas Proezas como PDs poseas.`;
+      card.appendChild(w);
+    }
+  }
+
+  row.querySelector("button").addEventListener("click", ()=>{
+    let detalle = "";
+    const det = row.querySelector(".perk-detail");
+    if(f && f.type==="proeza"){
+      const [n,stat] = det.value.split("|");
+      detalle = `${n} — ${stat}`;
+    } else if(f && f.type==="limite"){
+      const l = Number(row.querySelector(".perk-lim").value);
+      detalle = `${det.value}: límite ${l} → ${l+1}`;
+    } else if(det){
+      detalle = det.value.trim();
+    }
+    const nombre = detalle ? `${item.nombre} (${detalle})` : item.nombre;
+    addToCart(category, `${nombre} — ${precioTexto(item.price, item.pl)}`, item.price, item.pl, item.key);
+    renderAll();
+  });
+  return card;
+}
+
+/* ---------- VETERANÍA ---------- */
+RENDERERS.veterania = function(){
+  const panel = document.getElementById("panel-veterania");
+  const vetPL = state.cart.filter(i=>i.category==="VETERANÍA").reduce((s,i)=>s+(i.pl||0),0);
+  panel.innerHTML = `<h2 class="section-title">Veteranía
+    <span class="subtotal-pill">En el carrito: <b>${fmt(cartTotalFor("VETERANÍA"))}</b> grageas${vetPL?` · <b>${vetPL}</b> PL`:""}</span></h2>
+    <p class="section-sub">Proezas, Puntos de Destino y ampliación de límites de STAT. Elegí los detalles de cada canje y agregalo al carrito.</p>`;
+
+  const banner = document.createElement("div");
+  banner.className = "info-banner";
+  banner.innerHTML = `→ Las grageas de veteranía deben solicitarse en el <a href="${LINK_REGISTRO}" target="_blank" rel="noopener">Registro de Veteranía</a>.
+    <div class="pd-field"><b>Puntos de Destino que ya posees:</b> <input type="number" min="0" id="pdActualesInp" value="${state.pdActuales}"></div>`;
+  panel.appendChild(banner);
+
+  const list = document.createElement("div");
+  list.className = "perk-list";
+  VETERANIA.forEach(item=> list.appendChild(buildPerkCard(item, "VETERANÍA", false)));
+  panel.appendChild(list);
+
+  panel.querySelector("#pdActualesInp").addEventListener("change", e=>{
+    state.pdActuales = Math.max(0, Number(e.target.value)||0);
+    renderAll();
+  });
+};
+
+/* ---------- CARACTERÍSTICAS LEGENDARIAS ---------- */
+RENDERERS.legendarias = function(){
+  const panel = document.getElementById("panel-legendarias");
+  const legPL = state.cart.filter(i=>i.category==="LEGENDARIAS").reduce((s,i)=>s+(i.pl||0),0);
+  panel.innerHTML = `<h2 class="section-title">Características Legendarias
+    <span class="subtotal-pill">En el carrito: <b>${fmt(cartTotalFor("LEGENDARIAS"))}</b> grageas · <b>${legPL}</b> PL</span></h2>
+    <p class="section-sub">Rasgos de la ficha que pueden desarrollarse por encima de los límites convencionales.</p>`;
+
+  const banner = document.createElement("div");
+  banner.className = "info-banner";
+  banner.innerHTML = `Son rasgos ya existentes de la ficha de personaje que pueden desarrollarse por encima de los límites convencionales. Son distintos puntos en los que el PJ destaca y es de los mejores del mundo, si no el mejor. Ya sea un Atributo en el que es particularmente bueno, una Habilidad entrenada hasta el heroísmo o unas conexiones que inspiran más allá de las de cualquier otro líder conocido.<br><br>
+    <b>Las Características Legendarias no pueden adquirirse hasta que el PJ tenga una Veteranía Legendaria</b> y, además de su coste en grageas, lo tienen en Puntos Legendarios. Cada Veteranía Legendaria se adquiere cada tres años en el foro.<br><br>✦ El <b>Atributo Legendario</b> está al final de la pestaña Estadísticas y la <b>Habilidad Legendaria</b> al final de Habilidades.`;
+  panel.appendChild(banner);
+
+  const list = document.createElement("div");
+  list.className = "perk-list";
+  LEGENDARIAS.filter(item=>!item.inlineTab).forEach(item=> list.appendChild(buildPerkCard(item, "LEGENDARIAS", true)));
+  panel.appendChild(list);
+};
+
 /* ---------- CARRITO ---------- */
 RENDERERS.carrito = function(){
   const panel = document.getElementById("panel-carrito");
   panel.innerHTML = "";
   panel.innerHTML = `<h2 class="section-title">Carrito</h2>
-    <p class="section-sub">Acá se van sumando todas las subidas de nivel que agregaste (estadísticas, habilidades, especializaciones y trasfondos). Revisá la suma tentativa y, cuando estés conforme, llevala al texto para el foro.</p>`;
+    <p class="section-sub">Acá se van sumando todas las subidas de nivel y canjes que agregaste (estadísticas, habilidades, especializaciones, trasfondos, veteranía y características legendarias). Revisá la suma tentativa y, cuando estés conforme, llevala al texto para el foro.</p>`;
 
   const hero = document.createElement("div");
   hero.className = "cart-hero";
@@ -1374,6 +1635,7 @@ RENDERERS.carrito = function(){
     <div>
       <div class="cart-total-lbl">Suma tentativa del carrito</div>
       <div class="cart-total-num">${cartTotal().toLocaleString("es-ES")} grageas</div>
+      ${plTotal()>0 ? `<div class="cart-total-lbl" style="margin-top:6px;color:var(--arcane-bright);">+ ${plTotal()} Puntos Legendarios</div>` : ""}
     </div>
     <button class="btn arcane" id="llevarTextoBtn">Llevar al Texto →</button>`;
   panel.appendChild(hero);
@@ -1381,7 +1643,7 @@ RENDERERS.carrito = function(){
   if(state.cart.length===0){
     const empty = document.createElement("div");
     empty.className = "empty-note";
-    empty.textContent = "El carrito está vacío. Andá a Estadísticas, Habilidades, Especializaciones o Trasfondos para agregar subidas de nivel.";
+    empty.textContent = "El carrito está vacío. Andá a Estadísticas, Habilidades, Especializaciones, Trasfondos, Veteranía o Legendarias para agregar canjes.";
     panel.appendChild(empty);
   } else {
     const list = document.createElement("div");
@@ -1428,7 +1690,7 @@ RENDERERS.carrito = function(){
   totalBar.style.fontFamily = "var(--serif)";
   totalBar.style.fontSize = "1.2rem";
   totalBar.style.color = "var(--gold)";
-  totalBar.textContent = `Total general: ${totalGastado().toLocaleString("es-ES")} grageas`;
+  totalBar.textContent = `Total general: ${totalGastado().toLocaleString("es-ES")} grageas` + (plTotal()>0 ? ` y ${plTotal()} Puntos Legendarios` : "");
   panel.appendChild(totalBar);
 
   panel.querySelector("#llevarTextoBtn").addEventListener("click", ()=> activateTab("resumen"));
@@ -1455,6 +1717,9 @@ function buildSummaryLines(){
 
   const trasfRows = state.cart.filter(i=>i.category==="TRASFONDOS").map(i=>i.line);
   if(trasfRows.length){ lines.push("TRASFONDOS", ...trasfRows, ""); }
+
+  pushCartCategory("VETERANÍA", "VETERANÍA");
+  pushCartCategory("LEGENDARIAS", "CARACTERÍSTICAS LEGENDARIAS");
 
   const titRows = state.titulos.map(t=>
     `${t.asignatura} (${t.tipo}, ${t.nota}) — ${costoTitulo(t.tipo,t.nota)} grageas`
@@ -1503,7 +1768,7 @@ function buildSummaryLines(){
   }
 
   lines.push("");
-  lines.push(`Total: ${totalGastado()} grageas.`);
+  lines.push(`Total: ${totalGastado()} grageas` + (plTotal()>0 ? ` y ${plTotal()} Puntos Legendarios.` : "."));
   return lines;
 }
 
@@ -1563,6 +1828,43 @@ function fallbackCopy(text){
   try{ document.execCommand("copy"); }catch(e){}
   document.body.removeChild(ta);
 }
+
+/* ---------- Legendarias dentro de Estadísticas y Habilidades ---------- */
+function appendInlineLegend(tabId){
+  const panel = document.getElementById("panel-"+tabId);
+  const wrap = document.createElement("div");
+  wrap.className = "legend-inline";
+  wrap.innerHTML = `<div class="cart-section-title">Característica Legendaria</div>
+    <p class="section-sub" style="margin-top:0">Requiere Veteranía Legendaria. Además de las grageas, cuesta Puntos Legendarios.</p>`;
+  LEGENDARIAS.filter(i=>i.inlineTab===tabId).forEach(item=> wrap.appendChild(buildPerkCard(item, "LEGENDARIAS", true)));
+  panel.appendChild(wrap);
+}
+["stats","skills"].forEach(tabId=>{
+  const orig = RENDERERS[tabId];
+  RENDERERS[tabId] = function(){ orig(); appendInlineLegend(tabId); };
+});
+
+/* ---------- chispitas al agregar ---------- */
+const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+document.addEventListener("click", e=>{
+  const btn = e.target.closest(".btn");
+  if(!btn || btn.disabled || btn.classList.contains("ghost") || reduceMotion) return;
+  const glyphs = ["✦","✧","⋆","·"];
+  for(let k=0;k<7;k++){
+    const sp = document.createElement("span");
+    sp.className = "sparkle";
+    sp.textContent = glyphs[k%glyphs.length];
+    const ang = (Math.PI*2*k)/7 + Math.random()*0.5;
+    const dist = 22 + Math.random()*20;
+    sp.style.left = e.clientX+"px";
+    sp.style.top = e.clientY+"px";
+    sp.style.setProperty("--dx", Math.cos(ang)*dist+"px");
+    sp.style.setProperty("--dy", Math.sin(ang)*dist+"px");
+    if(btn.classList.contains("arcane") || k%3===0) sp.style.color = "var(--arcane-bright)";
+    document.body.appendChild(sp);
+    setTimeout(()=>sp.remove(), 800);
+  }
+}, true);
 
 /* =========================================================
    INIT
