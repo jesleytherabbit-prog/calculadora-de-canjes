@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ficha de Canjes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Courier+Prime&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a2b;
+  --panel:#1e2236;
+  --panel-2:#262a42;
+  --line:rgba(241,234,223,0.09);
+  --line-strong:rgba(241,234,223,0.16);
+  --gold:#B49768;
+  --gold-bright:#d6bd8f;
+  --gold-dim:#8f7a58;
+  --arcane:#A96879;
+  --arcane-bright:#cf94a3;
+  --lavender:#827B9A;
+  --parchment:#F1EADF;
+  --parchment-dim:#a7a1b6;
+  --good:#93b8a0;
+  --bad:#d98377;
+  --serif:"Cormorant Garamond","Iowan Old Style",Georgia,serif;
+  --sans:"Nunito",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --radius:16px;
+  --radius-sm:10px;
+  --shadow-1:none;
+  --shadow-2:0 18px 40px -24px rgba(0,0,0,0.6);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    radial-gradient(900px 500px at 50% -180px, rgba(169,104,121,0.16), transparent 70%),
+    radial-gradient(700px 400px at 100% 10%, rgba(130,123,154,0.10), transparent 70%),
+    var(--ink);
+  color:var(--parchment);
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.5;
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+}
+/* cielo estrellado sutil */
+body::before, body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-repeat:repeat;
+}
+body::before{
+  background-image:
+    radial-gradient(1px 1px at 20px 30px, rgba(241,234,223,0.55), transparent 60%),
+    radial-gradient(1px 1px at 140px 90px, rgba(241,234,223,0.35), transparent 60%),
+    radial-gradient(1.4px 1.4px at 260px 160px, rgba(214,189,143,0.6), transparent 60%),
+    radial-gradient(1px 1px at 330px 40px, rgba(241,234,223,0.3), transparent 60%),
+    radial-gradient(1px 1px at 90px 230px, rgba(207,148,163,0.45), transparent 60%);
+  background-size:380px 280px;
+  opacity:0.55;
+}
+body::after{
+  background-image:
+    radial-gradient(1.3px 1.3px at 60px 120px, rgba(241,234,223,0.7), transparent 60%),
+    radial-gradient(1px 1px at 210px 20px, rgba(214,189,143,0.7), transparent 60%),
+    radial-gradient(1.2px 1.2px at 300px 210px, rgba(241,234,223,0.6), transparent 60%);
+  background-size:520px 360px;
+  animation:twinkle 6s ease-in-out infinite alternate;
+}
+@keyframes twinkle{from{opacity:0.15;}to{opacity:0.7;}}
+.masthead,.ledger-wrap,.tabs,.content,footer.note{position:relative;z-index:1;}
+a{color:inherit;}
+::selection{background:rgba(169,104,121,0.45);}
+
+/* ---------- masthead ---------- */
+.masthead{
+  padding:56px 24px 34px;
+  text-align:center;
+  max-width:1100px;
+  margin:0 auto;
+}
+.masthead .eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:0.7rem;text-transform:uppercase;letter-spacing:0.32em;
+  color:var(--lavender);margin-bottom:14px;
+}
+.masthead .eyebrow::before,.masthead .eyebrow::after{content:"✦";color:var(--gold);font-size:0.6rem;letter-spacing:0;}
+.masthead h1{
+  font-family:var(--serif);
+  font-weight:500;
+  font-style:italic;
+  font-size:3.4rem;
+  line-height:1.05;
+  margin:0 0 14px;
+  background:linear-gradient(100deg, var(--gold-bright) 10%, var(--parchment) 50%, var(--arcane-bright) 90%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.masthead p{
+  margin:0 auto;
+  color:var(--parchment-dim);
+  font-size:0.95rem;
+  max-width:560px;
+}
+.masthead .moon-rule{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  margin:22px auto 0;color:var(--gold);font-size:0.8rem;max-width:260px;
+}
+.masthead .moon-rule::before,.masthead .moon-rule::after{
+  content:"";flex:1;height:1px;background:linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+}
+
+/* ---------- ledger ---------- */
+.ledger-wrap{
+  position:sticky;top:0;z-index:50;
+  background:rgba(23,26,43,0.82);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.ledger{
+  max-width:1100px;margin:0 auto;padding:12px 24px;
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+}
+.ledger-item{
+  display:flex;flex-direction:column;gap:0;min-width:92px;
+  padding:4px 16px;border-right:1px solid var(--line);
+}
+.ledger-item:last-of-type{border-right:none;}
+.ledger-item .lbl{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--parchment-dim);}
+.ledger-item .val{font-family:var(--serif);font-size:1.6rem;font-weight:500;color:var(--gold-bright);line-height:1.2;transition:color .2s ease;}
+.ledger-item.remain .val{color:var(--good);}
+.ledger-item.remain.negative .val{color:var(--bad);}
+.ledger-item.cart-quick{cursor:pointer;border-radius:var(--radius-sm);transition:background .2s ease;}
+.ledger-item.cart-quick:hover{background:rgba(169,104,121,0.10);}
+.ledger-item.cart-quick .val{color:var(--arcane-bright);font-size:1.25rem;}
+.ledger input.ledger-input{
+  background:transparent;border:none;border-bottom:1px dashed var(--gold-dim);border-radius:0;
+  color:var(--gold-bright);font-family:var(--serif);font-size:1.6rem;font-weight:500;
+  width:96px;padding:0 2px;box-shadow:none;line-height:1.2;
+}
+.ledger input.ledger-input:focus{outline:none;border-bottom:1px solid var(--gold-bright);box-shadow:none;}
+.ledger-actions{margin-left:auto;display:flex;align-items:center;gap:10px;}
+
+/* ---------- tabs ---------- */
+.tabs{
+  max-width:1100px;margin:0 auto;padding:22px 24px 6px;
+  display:flex;gap:4px;flex-wrap:wrap;justify-content:center;
+}
+.tab-btn{
+  position:relative;
+  background:transparent;border:1px solid transparent;
+  color:var(--parchment-dim);
+  font-family:var(--sans);font-size:0.85rem;
+  padding:7px 14px;cursor:pointer;border-radius:999px;
+  transition:color .2s ease, background .2s ease, border-color .2s ease;
+}
+.tab-btn:hover{color:var(--parchment);background:rgba(241,234,223,0.04);}
+.tab-btn.active{
+  color:var(--parchment);
+  border-color:rgba(180,151,104,0.45);
+  background:rgba(180,151,104,0.08);
+}
+.tab-btn.active::before{
+  content:"✦";position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+  font-size:0.6rem;color:var(--gold-bright);
+  animation:float 2.8s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,-3px);}}
+.tab-btn.cart-tab{color:var(--arcane-bright);}
+.tab-btn.cart-tab:hover{background:rgba(169,104,121,0.08);}
+.tab-btn.cart-tab.active{border-color:rgba(169,104,121,0.55);background:rgba(169,104,121,0.12);}
+.tab-btn.cart-tab.active::before{color:var(--arcane-bright);}
+
+/* ---------- content ---------- */
+.content{max-width:1100px;margin:0 auto;padding:30px 24px 100px;}
+.panel{display:none;}
+.panel.active{display:block;animation:fadeIn .35s ease forwards;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+h2.section-title{
+  font-family:var(--serif);font-weight:500;font-style:italic;
+  font-size:2.1rem;margin:0 0 4px;color:var(--parchment);
+  padding-bottom:12px;
+  display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;
+  border-bottom:none;
+  background:linear-gradient(90deg, var(--gold-dim), transparent 70%) bottom/100% 1px no-repeat;
+}
+.section-sub{color:var(--parchment-dim);font-size:0.88rem;margin:12px 0 26px;max-width:720px;}
+.subtotal-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--sans);font-style:normal;
+  border:1px solid var(--line-strong);border-radius:999px;
+  padding:3px 12px;font-size:0.74rem;color:var(--parchment-dim);
+  margin-left:0;
+}
+.subtotal-pill b{color:var(--gold-bright);font-weight:700;}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+@media(max-width:860px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+
+.card{
+  background:linear-gradient(180deg, rgba(241,234,223,0.025), transparent), var(--panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:16px 18px;
+  transition:border-color .25s ease, box-shadow .25s ease, transform .25s ease;
+}
+.card:hover{border-color:rgba(180,151,104,0.35);box-shadow:0 0 0 4px rgba(180,151,104,0.04), var(--shadow-2);}
+.card-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.card-row + .card-row{margin-top:10px;}
+.card-name{font-family:var(--serif);font-size:1.2rem;font-weight:600;color:var(--parchment);}
+.card-cost{font-size:0.8rem;color:var(--gold);min-width:60px;text-align:right;}
+
+select, input[type="number"], input[type="text"]{
+  background:rgba(23,26,43,0.7);
+  border:1px solid var(--line-strong);
+  color:var(--parchment);
+  border-radius:var(--radius-sm);
+  padding:7px 10px;
+  font-size:0.86rem;font-family:var(--sans);
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+select{
+  -webkit-appearance:none;appearance:none;padding-right:28px;cursor:pointer;
+  background-image:linear-gradient(45deg, transparent 50%, var(--gold) 50%), linear-gradient(135deg, var(--gold) 50%, transparent 50%);
+  background-position:calc(100% - 15px) 52%, calc(100% - 10px) 52%;
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat;
+}
+select option, select optgroup{background:var(--panel);color:var(--parchment);}
+select:hover, input:hover{border-color:rgba(180,151,104,0.45);}
+select:focus,input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(180,151,104,0.15);}
+input::placeholder{color:rgba(167,161,182,0.6);}
+
+.buy-row{
+  display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;margin-top:14px;
+  padding-top:14px;border-top:1px dashed var(--line-strong);
+}
+.buy-row .field{display:flex;flex-direction:column;gap:4px;}
+.buy-row .field label, .adder .field label{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--parchment-dim);}
+.buy-row select{min-width:64px;}
+.buy-preview{font-family:var(--serif);font-size:1.15rem;color:var(--gold-bright);font-weight:600;min-width:64px;text-align:center;padding-bottom:4px;}
+.buy-preview.zero{color:var(--parchment-dim);font-weight:400;}
+.arrow{color:var(--gold-dim);font-size:1rem;padding-bottom:7px;}
+
+.btn{
+  background:var(--gold);
+  color:#1b1e30;
+  border:none;border-radius:999px;
+  padding:8px 18px;
+  font-family:var(--sans);font-size:0.82rem;font-weight:700;letter-spacing:0.01em;
+  cursor:pointer;position:relative;
+  transition:background .2s ease, transform .15s ease, box-shadow .2s ease, opacity .2s ease;
+}
+.btn:hover{background:var(--gold-bright);box-shadow:0 0 18px rgba(214,189,143,0.35);}
+.btn:active{transform:scale(0.96);}
+.btn:disabled{opacity:0.28;cursor:not-allowed;box-shadow:none;background:var(--gold);}
+.btn.ghost{background:none;border:1px solid var(--line-strong);color:var(--parchment-dim);}
+.btn.ghost:hover{color:var(--parchment);border-color:var(--parchment-dim);box-shadow:none;}
+.btn.arcane{background:var(--arcane);color:var(--parchment);}
+.btn.arcane:hover{background:var(--arcane-bright);color:#1b1e30;box-shadow:0 0 18px rgba(207,148,163,0.35);}
+
+/* chispitas mágicas */
+.sparkle{
+  position:fixed;pointer-events:none;z-index:999;font-size:12px;color:var(--gold-bright);
+  animation:sparkle .75s ease-out forwards;
+}
+@keyframes sparkle{
+  from{opacity:1;transform:translate(-50%,-50%) scale(0.6) rotate(0deg);}
+  to{opacity:0;transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.1) rotate(160deg);}
+}
+
+/* bloques de habilidades */
+.skill-cat{
+  background:transparent;border:none;border-radius:0;padding:0;margin-bottom:30px;
+}
+.skill-cat > .cat-head{
+  display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:none;padding-bottom:0;margin-bottom:12px;
+}
+.skill-cat > .cat-head h3{
+  font-family:var(--serif);font-weight:500;font-style:italic;font-size:1.35rem;margin:0;color:var(--gold-bright);
+}
+.skill-cat > .cat-head h3::before{content:"✧ ";color:var(--arcane-bright);font-style:normal;font-size:0.9rem;}
+.skill-cat .cat-head .stat-cost{font-size:0.78rem;color:var(--gold-dim);}
+
+.adder{
+  display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 18px;margin-bottom:18px;
+}
+.adder select{flex:1;min-width:150px;}
+.adder .field{display:flex;flex-direction:column;gap:4px;}
+
+.chip-list{display:flex;flex-direction:column;gap:8px;}
+.chip{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--radius-sm);
+  padding:10px 14px;font-size:0.86rem;gap:10px;flex-wrap:wrap;
+  transition:border-color .2s ease, transform .2s ease;
+}
+.chip:hover{border-color:rgba(180,151,104,0.35);transform:translateX(3px);}
+.chip .chip-info{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.chip .chip-cost{color:var(--gold-bright);font-weight:700;font-size:0.82rem;}
+.chip .cat-tag{
+  font-size:0.6rem;text-transform:uppercase;letter-spacing:0.12em;
+  color:var(--arcane-bright);background:rgba(169,104,121,0.12);
+  border:1px solid rgba(169,104,121,0.35);border-radius:999px;
+  padding:2px 9px;font-weight:700;
+}
+.chip .chip-remove{
+  background:none;border:none;color:var(--parchment-dim);cursor:pointer;
+  font-size:0.95rem;line-height:1;padding:4px 7px;border-radius:999px;
+  transition:color .2s ease, background .2s ease;
+}
+.chip .chip-remove:hover{color:var(--bad);background:rgba(217,131,119,0.12);}
+.empty-note{
+  color:var(--parchment-dim);font-size:0.88rem;font-style:italic;font-family:var(--serif);
+  padding:22px;text-align:center;border:1px dashed var(--line-strong);border-radius:var(--radius);
+}
+.empty-note::before{content:"☾  ";color:var(--gold);font-style:normal;}
+
+/* talentos */
+.check-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:0 28px;
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:8px 18px;
+}
+@media(max-width:700px){.check-grid{grid-template-columns:1fr;}}
+.check-row{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 4px;border-bottom:1px solid var(--line);
+  font-size:0.86rem;transition:color .2s ease;
+}
+.check-row:hover{color:var(--gold-bright);}
+.check-row label{flex:1;cursor:pointer;}
+.check-row .price{color:var(--gold-dim);font-size:0.78rem;min-width:44px;text-align:right;}
+.check-row input[type=checkbox]{accent-color:var(--arcane);width:15px;height:15px;cursor:pointer;}
+
+/* arcanos */
+.arc-group{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 18px;
+}
+.arc-group h3{font-family:var(--serif);font-weight:500;font-style:italic;font-size:1.35rem;margin:0 0 8px;color:var(--parchment);}
+.arc-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);}
+.arc-row:last-of-type{border-bottom:none;}
+.arc-row label{font-size:0.88rem;color:var(--parchment);}
+.arc-row label small{display:block;color:var(--parchment-dim);font-size:0.72rem;}
+.arc-row input[type=number]{width:64px;text-align:center;}
+.warn-text{
+  color:var(--bad);font-size:0.76rem;margin-top:10px;padding:7px 11px;
+  background:rgba(217,131,119,0.08);border:1px solid rgba(217,131,119,0.22);border-radius:var(--radius-sm);
+}
+
+/* armas */
+.weapon-card{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px 22px;margin-bottom:18px;
+}
+.weapon-card h3{font-family:var(--serif);font-weight:500;font-style:italic;font-size:1.45rem;margin:0 0 14px;color:var(--gold-bright);}
+.weapon-cols{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+@media(max-width:860px){.weapon-cols{grid-template-columns:1fr;}}
+.weapon-col h4{font-size:0.66rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--parchment-dim);margin:0 0 6px;font-weight:700;}
+.weapon-summary{
+  display:flex;gap:18px;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line-strong);
+  flex-wrap:wrap;font-size:0.82rem;color:var(--parchment-dim);align-items:center;
+}
+.weapon-summary b{color:var(--gold-bright);}
+.slots-bad{color:var(--bad)!important;}
+.slots-ok{color:var(--good)!important;}
+
+/* carrito */
+.cart-hero{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;
+  background:
+    radial-gradient(400px 160px at 0% 0%, rgba(169,104,121,0.22), transparent 70%),
+    var(--panel);
+  border:1px solid rgba(169,104,121,0.35);border-radius:var(--radius);
+  padding:24px 28px;margin-bottom:24px;
+}
+.cart-hero .cart-total-num{font-family:var(--serif);font-size:2.6rem;font-weight:500;color:var(--parchment);line-height:1.1;}
+.cart-hero .cart-total-lbl{font-size:0.66rem;text-transform:uppercase;letter-spacing:0.16em;color:var(--parchment-dim);}
+.cart-section-title{
+  font-family:var(--serif);font-weight:500;font-style:italic;color:var(--gold-bright);
+  margin:28px 0 12px;font-size:1.35rem;padding-bottom:6px;
+  background:linear-gradient(90deg, var(--line-strong), transparent 70%) bottom/100% 1px no-repeat;
+}
+
+footer.note{max-width:1100px;margin:0 auto;padding:0 24px 60px;color:var(--parchment-dim);font-size:0.78rem;}
+
+.summary-toolbar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.copy-status{font-size:0.8rem;color:var(--good);opacity:0;transition:opacity .25s ease;}
+.copy-status.show{opacity:1;}
+.summary-box{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:26px 30px;
+  font-family:"Courier Prime","Courier New",Consolas,monospace;
+  font-size:0.88rem;line-height:1.85;
+  white-space:pre-wrap;color:var(--parchment);
+  max-height:70vh;overflow-y:auto;
+}
+.summary-box::-webkit-scrollbar{width:8px;}
+.summary-box::-webkit-scrollbar-track{background:transparent;}
+.summary-box::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:4px;}
+.summary-box .sec-heading{color:var(--gold-bright);font-weight:700;letter-spacing:0.06em;}
+.summary-box .sec-total{color:var(--arcane-bright);font-weight:700;}
+
+/* veteranía y legendarias */
+.perk-list{display:flex;flex-direction:column;gap:14px;}
+.perk-card{position:relative;}
+.perk-card.legend{
+  background:
+    radial-gradient(300px 120px at 100% 0%, rgba(169,104,121,0.12), transparent 70%),
+    var(--panel);
+}
+.perk-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;}
+.perk-head h3{font-family:var(--serif);font-weight:500;font-style:italic;font-size:1.45rem;margin:0;color:var(--gold-bright);}
+.perk-card.legend .perk-head h3{color:var(--arcane-bright);}
+.perk-card.legend .perk-head h3::after{content:" ✦";font-style:normal;font-size:0.75rem;color:var(--gold);}
+.perk-price{font-size:0.8rem;color:var(--gold-bright);font-weight:700;white-space:nowrap;}
+.perk-price .pl{color:var(--arcane-bright);}
+.perk-req{
+  display:inline-block;margin-top:8px;font-size:0.74rem;color:var(--gold);
+  border:1px solid rgba(180,151,104,0.3);border-radius:999px;padding:2px 11px;
+}
+.perk-desc{color:var(--parchment-dim);font-size:0.86rem;margin:10px 0 0;max-width:820px;}
+.perk-limit{color:var(--lavender);font-size:0.78rem;margin-top:8px;font-style:italic;max-width:820px;}
+.perk-count{font-size:0.76rem;color:var(--arcane-bright);padding-bottom:8px;}
+.perk-card .buy-row select, .perk-card .buy-row input[type=text]{min-width:200px;}
+.legend-inline{margin-top:34px;}
+.legend-inline .cart-section-title{color:var(--arcane-bright);}
+.info-banner{
+  border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 20px;margin-bottom:20px;font-size:0.88rem;color:var(--parchment-dim);
+  background:rgba(130,123,154,0.07);
+}
+.info-banner b{color:var(--parchment);}
+.info-banner a, .perk-desc a{color:var(--gold-bright);text-decoration-color:rgba(214,189,143,0.4);text-underline-offset:3px;}
+.pd-field{display:flex;align-items:center;gap:10px;margin-top:12px;}
+.pd-field input{width:70px;text-align:center;}
+.ledger-item.pl .val{color:var(--arcane-bright);}
+.ledger input.ledger-input.pl-input{color:var(--arcane-bright);border-bottom-color:var(--arcane);width:70px;}
+.ledger-item.pl.negative .val{color:var(--bad);}
+
+@media(max-width:640px){
+  .masthead h1{font-size:2.5rem;}
+  .ledger{padding:8px 16px;}
+  .ledger-item{padding:4px 10px;min-width:80px;}
+  .ledger-item .val, .ledger input.ledger-input{font-size:1.3rem;}
+  .content,.tabs{padding-left:16px;padding-right:16px;}
+}
+@media (prefers-reduced-motion: reduce){
+  body::after,.tab-btn.active::before{animation:none;}
+  .panel.active{animation:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <span class="eyebrow">Canjes de personaje</span>
+  <h1>Ficha de Canjes</h1>
+  <p>Calculadora de canje de grageas para personajes. Elegí el nivel actual y el nivel al que querés subir: el sistema calcula el costo acumulativo real de la mejora y lo suma al carrito.</p>
+  <div class="moon-rule">☾</div>
+</div>
+
+<div class="ledger-wrap">
+  <div class="ledger">
+    <div class="ledger-item">
+      <span class="lbl">Grageas disponibles</span>
+      <input id="inpDisponibles" class="ledger-input" type="number" value="0" placeholder="0">
+    </div>
+    <div class="ledger-item">
+      <span class="lbl">Gastadas</span>
+      <span class="val" id="valGastadas">0</span>
+    </div>
+    <div class="ledger-item remain">
+      <span class="lbl">Restantes</span>
+      <span class="val" id="valRestantes">0</span>
+    </div>
+    <div class="ledger-item pl">
+      <span class="lbl">Puntos Legendarios</span>
+      <input id="inpPL" class="ledger-input pl-input" type="number" value="0" placeholder="0">
+    </div>
+    <div class="ledger-item pl remain-pl">
+      <span class="lbl">PL restantes</span>
+      <span class="val" id="valPLRestantes">0</span>
+    </div>
+    <div class="ledger-item cart-quick" id="cartQuickNav">
+      <span class="lbl">Carrito</span>
+      <span class="val" id="valCartQuick">0 gr</span>
+    </div>
+    <div class="ledger-actions">
+      <button class="btn ghost" id="resetAllBtn">Reiniciar todo</button>
+    </div>
+  </div>
+</div>
+
+<div class="tabs" id="tabBar"></div>
+
+<div class="content" id="tabContent"></div>
+
+<script>
+/* =========================================================
+   DATA TABLES  (extraídas de la hoja "Referencias")
+   ========================================================= */
+const STAT_TABLE = {
+  individual:[0,250,300,400,550,750,1000,1300,1750],
+  acumulado:[0,250,550,950,1500,2250,3250,4550,6300]
+};
+const SKILL_TABLE = {
+  individual:[0,75,150,250,400,750],
+  acumulado:[0,75,225,475,875,1625]
+};
+const ESPEC_TABLE = {
+  individual:[0,150,300,450,600,750],
+  acumulado:[0,150,450,900,1500,2250]
+};
+const TRASF_GEN_TABLE = {
+  individual:[0,100,200,300,400,500],
+  acumulado:[0,100,300,600,1000,1500]
+};
+const TRASF_ESP_TABLE = {
+  individual:[0,50,100,150,200,350],
+  acumulado:[0,50,150,300,500,850]
+};
+
+const STATS = ["Vigor","Destreza","Carisma","Voluntad","Percepción","Inteligencia","Poder"];
+
+const SKILL_GROUPS = {
+  "Vigor": ["Atletismo","Pelea"],
+  "Destreza": ["Esquivar","Latrocinio","Sigilo","Volar"],
+  "Carisma": ["Coordinación","Intimidación","Oratoria","Seducir","Subterfugio"],
+  "Voluntad": ["Arte (X)","Estilo","Frialdad"],
+  "Percepción": ["Alerta","Consciencia","Empatía","Iniciativa","Investigación"],
+  "Inteligencia": ["Adivinación","Arcanismo","Callejeo","Cultura Mágica","Cultura Muggle","Herbología","Magizoología","Medicina","Política","Supervivencia"],
+  "Poder": ["Duelo","Pociones","Rituales"]
+};
+
+const TRASF_GENERALES = ["Biblioteca","Informantes","Seguidores","Influencia","Fama","Orden de Merlín","Patrón","Recursos"];
+
+const CONOCIMIENTO_CATEGORIAS = {
+  "Adivinación": ["Métodos adivinatorios","Profecías"],
+  "Arcanismo": ["Arcanos","Artes oscuras","No-Seres","Objetos mágicos","Otros planos"],
+  "Callejeo": ["Contrabando","Criminales","Localizaciones"],
+  "Cultura Mágica": ["Deportes mágicos","Historia de la magia","Hogwarts (secretos)","Mundo del corazón"],
+  "Cultura Muggle": ["Arte muggle","Deportes muggles","Tecnología"],
+  "Herbología": ["Pociones","Plantas naturales"],
+  "Magizoología": ["Animales muggles","Bestias mágicas","Espíritus","Seres racionales"],
+  "Medicina": ["Enfermedades mágicas","Experimental","Heridas mágicas","Medicina muggle"],
+  "Política": ["Ley mágica","Ministerio de Magia"],
+  "Supervivencia": ["Caza","Entornos hostiles","Orientarse"]
+};
+const SOCIAL_CATEGORIAS = {
+  "Académicos": ["Adivinadores y oráculos","Arcanistas","Arqueólogos e historiadores","Biólogos e investigadores médicos","Herbólogos y pocionistas","Magizoólogos","Muggleólogos"],
+  "Bajos fondos": ["Contrabandistas","Estafadores","Evanescedores","Falsificadores","Ladrones","Sanadores ilegales","Soplones"],
+  "Hogwarts": ["Gryffindor","Hufflepuff","Ravenclaw","Slytherin","Fauna de Hogwarts","Personal no docente","Profesorado"],
+  "Política": ["Azkaban","Bastión Woodcroft","Confederación Internacional de Magos","Gringotts","Hogsmeade","Ministerio de Magia","San Mungo","Gobierno mágico de (X país)"],
+  "Seres mágicos": ["Arpías","Centauros","Duendes","Gente del Agua","Gigantes","Hombres Lobo","Vampiros"],
+  "Sociedad": ["Alta sociedad","Deportes","Fantasmas","La Reserva","Muggles","Negocios","Prensa"]
+};
+const TIPOS_ESPECIFICO = ["Biblioteca","Influencia","Informantes","Seguidores"];
+function categoriasParaTipo(tipo){
+  return tipo === "Biblioteca" ? CONOCIMIENTO_CATEGORIAS : SOCIAL_CATEGORIAS;
+}
+
+const TALENTOS = [
+  ["Acción coordinada",100],["Aliado Común",300],["Aliado Dotado",600],["Aliado Torpe",100],
+  ["Animagia",600],["Aparecerse",200],["Asalto Cegador",500],["Ataque Agresivo",75],
+  ["Ataque Cauteloso",75],["Ataque Crítico",500],["Ataque Explosivo",250],["Ataque Múltiple",250],
+  ["Ataque Rápido",75],["Beber Poción",100],["Compañero Animal Avanzado",600],
+  ["Compañero Animal Básico",100],["Compañero Animal Doméstico",50],["Compañero Animal Intermedio",300],
+  ["Conjuración Silenciosa",250],["Conjurar sin Varita",2500],["Defensa Total",500],["Desarme",300],
+  ["Entrenador de Criatura",300],["Entrenador de Reanimados",300],["Flanquear",250],
+  ["Hechizo Inventado",600],["Hechizo Predilecto",200],["Hechizo Raudo",300],["Hechizo Virtuoso",300],
+  ["Horrocrux",1500],["Identidad Alternativa",500],["Lanzar Poción",300],["Lazo",50],
+  ["Maestría en (Animal Muggle o Bestia Mágica)",100],["Maestría en (Ser Mágico)",200],
+  ["Maestría en Antídoto",200],["Objeto Inventado",600],["Oráculo",666],["Poción Inventada",600],
+  ["Poción Predilecta",200],["Poción Rauda",300],["Poción Virtuosa",300],["Primeros Auxilios",300],
+  ["Proteger",100],["Reanimado Cámara",300],["Reanimado Común",150],["Reanimado de Combate",600],
+  ["Reanimado Torpe",50],["Ritual Inventado",600],["Ritual Predilecto",200],["Ritual Raudo",300],
+  ["Ritual Virtuoso",300],["Sometimiento",600],["Último Estertor",500],["Unión",100],
+  ["Usar Cobertura",250],["Vínculo",150]
+];
+
+const ASIGNATURAS = ["AAA","CCM","DCAO","EyT","EM","HyP","HM","MR","SyMMyM","Todas"];
+const NOTAS = ["Aceptable","Supera las Expectativas","Extraordinario"];
+function costoTitulo(tipo,nota){
+  const timos = {"Aceptable":50,"Supera las Expectativas":100,"Extraordinario":150};
+  const extasis = {"Aceptable":30,"Supera las Expectativas":60,"Extraordinario":90};
+  return tipo==="TIMOs" ? (timos[nota]||0) : (extasis[nota]||0);
+}
+
+function costoIdioma(tipo,nivel){
+  const muggle={"Bajo":50,"Medio":100,"Alto":150};
+  const magico={"Bajo":100,"Medio":200,"Alto":300};
+  return tipo==="Muggle" ? (muggle[nivel]||0) : (magico[nivel]||0);
+}
+
+const RAZAS = [["Humano",0],["Semigigante",500],["Metamorfomago",500],["Semiveela",500],["licántropo",150]];
+
+const MATERIALES = [
+  ["Tratamiento de Encantador",50,1],["Adamantino",25,2],["Emplasto de Dragón",100,2],
+  ["Reforjado por Duendes",200,2],["Acero Duendigoniza",500,3]
+];
+const RUNAS = [
+  ["Ignis Mínima",1,50],["Glacies Mínima",1,50],["Ventus Mínima",1,50],["Fulgor Mínima",1,50],
+  ["Sanguis Mínima",1,50],["Creítus Mínima",1,50],["Fixum Mínima",1,50],["Venite",1,50],
+  ["Ignis Media",2,150],["Glacies Media",2,150],["Ventus Media",2,150],["Fulgor Media",2,150],
+  ["Sanguis Media",2,150],["Fixum Media",2,150],
+  ["Ignis Máxima",3,300],["Glacies Máxima",3,300],["Ventus Máxima",3,300],["Fulgor Máxima",3,300],
+  ["Crepitus Máxima",3,300],["Fixum Máxima",3,300]
+];
+
+const ARCANO_TIERS = [
+  {key:"hechizoDom", label:"Hechizos Domésticos", price:25},
+  {key:"hechizoBas", label:"Hechizos Básicos", price:100},
+  {key:"hechizoInt", label:"Hechizos Intermedios", price:300, requiresLE:"hechizoBas"},
+  {key:"hechizoAva", label:"Hechizos Avanzados", price:600, requiresLE:"hechizoInt"}
+];
+const POCION_TIERS = [
+  {key:"pocionBas", label:"Pociones Básicas", price:100, gate:1},
+  {key:"pocionInt", label:"Pociones Intermedias", price:300, gate:2, requiresLE:"pocionBas"},
+  {key:"pocionAva", label:"Pociones Avanzadas", price:600, gate:3}
+];
+const RITUAL_TIERS = [
+  {key:"ritualBas", label:"Rituales Básicos", price:100, gate:1},
+  {key:"ritualInt", label:"Rituales Intermedios", price:300, gate:2},
+  {key:"ritualAva", label:"Rituales Avanzados", price:600, gate:3}
+];
+const OBJETO_TIERS = [
+  {key:"objBas", label:"Objetos Básicos", price:100},
+  {key:"objInt", label:"Objetos Intermedios", price:300},
+  {key:"objAva", label:"Objetos Avanzados", price:600}
+];
+
+/* ---------- VETERANÍA ---------- */
+const PROEZAS = {
+  "Vigor": ["Atletismo","Pelea"],
+  "Destreza": ["Esquiva","Latrocinio","Sigilo","Vuelo"],
+  "Carisma": ["Coordinación","Intimidación","Oratoria","Seducción","Subterfugio"],
+  "Voluntad": ["Arte / Artesanía (X)","Estilo","Frialdad"],
+  "Percepción": ["Alerta","Consciencia","Empatía","Iniciativa","Investigación"],
+  "Inteligencia": ["Adivinación","Arcanismo","Callejeo","Cultura Mágica","Cultura Muggle","Herbología","Magizoología","Medicina","Política","Supervivencia"],
+  "Poder": ["Duelo","Pociones","Rituales"]
+};
+const LINK_PD = "https://hp-avada-kedavra.foroactivo.com/t23040-6-reglas-especiales#337050";
+const LINK_REGISTRO = "https://hp-avada-kedavra.foroactivo.com/t23263-registro-de-veterania";
+const ALL_SKILLS = Object.values(SKILL_GROUPS).flat();
+
+const VETERANIA = [
+  {key:"proeza", nombre:"Proeza", price:300, pl:3,
+   req:"Requiere sumar un bonificador total de +9 entre Habilidad y STAT.",
+   desc:"Te permite canjear una de las Proezas de la lista. Puedes realizar este canje tantas veces como Puntos de Destino poseas (es decir, si tienes 4 PDs, puedes adquirir, siempre que cumplas los requisitos, un total de 4 Proezas).",
+   field:{type:"proeza", label:"Proeza"}},
+  {key:"pd", nombre:"Punto de Destino", price:1000, pl:0,
+   desc:`Aumentas en uno tu nivel de Destino, y los Puntos de Destino disponibles. Tienes la descripción de los Puntos de Destino <a href="${LINK_PD}" target="_blank" rel="noopener">aquí</a>.`,
+   limit:"Máximo un canjeo cada año de veteranía.", maxPerYear:1},
+  {key:"limite", nombre:"+1 al límite de 1 STAT", price:500, pl:0,
+   req:"Límite actual del STAT entre 1 y 4.",
+   desc:"Cuando tienes un STAT en un nivel que va del 1 al 4, gastando 500 grageas podrías conseguir subir el límite de STAT en una categoría. Esto es importante para poder superar tus límites. No se puede tener una diferencia de dos puntos entre los límites de tus STATs (es decir, si tu límite en un STAT es de 5, todos los demás STATs tienen que tener un límite de 5 o de 4, no puedes tener ninguno con un límite de 3). También es importante aclarar que estas 500 grageas se usan para ampliar el límite, no el STAT en sí mismo. Una vez los STATs estén al 5, este canje se vuelve obsoleto y pasamos a considerar el siguiente (Talentoso).",
+   limit:"Máximo dos canjeos cada año.", maxPerYear:2,
+   field:{type:"limite"}},
+  {key:"talentoso", nombre:"Talentoso", price:1000, pl:0,
+   req:"Requiere tener todos tus Atributos con un Límite de 5 (límite, no valor).",
+   desc:"Cuando ya tienes todos tus Atributos con un Límite de 5, puedes adquirir un Talentoso para aumentar el límite de uno de ellos todavía más. Un Talentoso es el equivalente a un cambio de límite de 5 a 7 (o sea, dos subidas), y, además, te permite que todas las Habilidades asociadas a dicho Atributo puedan adquirirse en “Maestro”, cuando antes sólo podías conseguirlas en Experto.",
+   limit:"Cada Etapa tiene un número máximo de huecos para Talentosos que puede canjear sin necesidad de esperar a lograr Veteranía. Este número va subiendo en uno cada año, siempre que todos los Atributos tengan sus límites a 5, no antes (por ejemplo, un Joven podría canjear dos +1 Límite Atributo con la primera Veteranía, otros dos +1 Límite de Atributo con la segunda y su primer Talentoso con la tercera Veteranía).",
+   field:{type:"select", label:"Atributo", options:STATS}}
+];
+
+/* ---------- CARACTERÍSTICAS LEGENDARIAS ---------- */
+const LEGENDARIAS = [
+  {key:"trasfEsp", nombre:"Trasfondo General Específico Legendario", price:300, pl:3,
+   req:"Requiere tener un Trasfondo Específico al V.",
+   desc:"Puedes subir un Trasfondo Específico que tuvieras a nivel V al nivel VI.",
+   field:{type:"text", label:"Trasfondo específico", ph:"Ej.: Informantes — Bajos fondos — Ladrones"}},
+  {key:"trasfGen", nombre:"Trasfondo General Avanzado Legendario", price:600, pl:6,
+   req:"Requiere tener un Trasfondo General al V.",
+   desc:"Puedes subir un Trasfondo General que tuvieras a nivel V al nivel VI.",
+   field:{type:"select", label:"Trasfondo general", options:TRASF_GENERALES}},
+  {key:"habLeg", nombre:"Habilidad Legendaria", price:750, pl:7, inlineTab:"skills",
+   req:"Requiere tener una Habilidad a nivel Maestro.",
+   desc:"Puedes subir una Habilidad de Maestro (+7) a Legendario (+9).",
+   field:{type:"select", label:"Habilidad", options:ALL_SKILLS}},
+  {key:"ventLeg", nombre:"Ventaja Legendaria", price:1000, pl:10,
+   req:"Requiere tener una Ventaja al III.",
+   desc:"Puedes subir una Ventaja que tuvieras a nivel III al nivel IV (la Orden de Merlín permite inventar su propio título narrativo).",
+   field:{type:"text", label:"Ventaja", ph:"Nombre de la ventaja"}},
+  {key:"animalLeg", nombre:"Compañero Animal Legendario", price:1000, pl:10,
+   req:"Requiere Especialización Magizoólogo del mismo nivel que requiera el compañero animal de ese tipo y Experto [Animal o Bestia escogida].",
+   desc:"Eres capaz de unir a tu vida a una criatura mítica y especial. Ya sea una famosa ave fénix, o quizás un basilisco, o una acromántula gigante… eres capaz de trascender la mayoría de animales y criaturas domesticables para conseguir impresionar allá donde vayas.",
+   field:{type:"text", label:"Criatura", ph:"Ej.: Fénix"}},
+  {key:"atrLeg", nombre:"Atributo Legendario", price:1750, pl:17, inlineTab:"stats",
+   req:"Requiere tener un Atributo al 7.",
+   desc:"Puedes subir un Atributo del 7 al 8.",
+   field:{type:"select", label:"Atributo", options:STATS}},
+  {key:"arcLeg", nombre:"Arcano Legendario", price:3000, pl:30,
+   desc:"Has creado un arcano único y especial, el típico que la gente tacharía de imposible. Habla con los Encargados del Sistema para diseñar un arcano único para tu ficha. Este arcano no podrá imitarse por nadie más que tú (aunque otros pueden conseguir efectos mecánicos similares usando narrativas diferentes), y será más fuerte que cualquier arcano avanzado virtuoso del sistema.",
+   field:{type:"text", label:"Nombre del arcano", ph:"Opcional"}},
+  {key:"relLeg", nombre:"Reliquia Legendaria", price:3000, pl:30,
+   desc:"Te has hecho con un objeto único y especial, el típico sobre el que se escriben las historias. Se escriben historias sobre el Sombrero Seleccionador, sobre el Cáliz de Fuego o la espada de Godric Gryffindor… y, ahora, también sobre tu Reliquia. Habla con el autor del sistema y trabaja con él para diseñar un objeto único para tu ficha. Este objeto no podrá imitarse por nadie más que tú (aunque otros pueden conseguir efectos mecánicos similares usando narrativas diferentes), y será más fuerte que cualquier objeto avanzado del sistema.",
+   field:{type:"text", label:"Nombre de la reliquia", ph:"Opcional"}}
+];
+
+/* =========================================================
+   ESTADO
+   ========================================================= */
+function makeInitialState(){
+  return {
+    disponibles: 0,
+    plDisponibles: 0,
+    pdActuales: 0,
+    cart: [], // {id, category, line, cost}
+    statsBase: Object.fromEntries(STATS.map(s=>[s,0])),
+    statsTarget: Object.fromEntries(STATS.map(s=>[s,1])),
+    skillsBase: Object.fromEntries(Object.values(SKILL_GROUPS).flat().map(s=>[s,0])),
+    skillsTarget: Object.fromEntries(Object.values(SKILL_GROUPS).flat().map(s=>[s,1])),
+    trasfGenBase: Object.fromEntries(TRASF_GENERALES.map(t=>[t,0])),
+    trasfGenTarget: Object.fromEntries(TRASF_GENERALES.map(t=>[t,1])),
+    titulos: [],
+    idiomas: [],
+    talentos: new Set(),
+    raza: "Humano",
+    arcanos: Object.fromEntries(
+      [...ARCANO_TIERS,...POCION_TIERS,...RITUAL_TIERS,...OBJETO_TIERS].map(t=>[t.key,0])
+    ),
+    armas: [
+      {nombre:"Arma 1", materiales:new Set(), runas:new Set()},
+      {nombre:"Arma 2", materiales:new Set(), runas:new Set()}
+    ]
+  };
+}
+let state = makeInitialState();
+let uid = 1;
+const nextId = () => uid++;
+
+/* =========================================================
+   HELPERS DE COSTE
+   ========================================================= */
+function costoSubida(table, actual, nuevo){
+  if(nuevo<=actual) return 0;
+  return (table.acumulado[nuevo]||0) - (table.acumulado[actual]||0);
+}
+function addToCart(category, line, cost, pl=0, key=null){
+  state.cart.push({id:nextId(), category, line, cost, pl, key});
+}
+function plTotal(){
+  return state.cart.reduce((sum,i)=> sum + (i.pl||0), 0);
+}
+function cartCountKey(key){
+  return state.cart.filter(i=>i.key===key).length;
+}
+function fmt(n){ return Number(n).toLocaleString("es-ES"); }
+function precioTexto(price, pl){
+  return pl>0 ? `${price} grageas y ${pl} Puntos Legendarios` : `${price} grageas`;
+}
+function cartTotal(){
+  return state.cart.reduce((sum,i)=> sum + i.cost, 0);
+}
+function cartTotalFor(category){
+  return state.cart.filter(i=>i.category===category).reduce((sum,i)=> sum + i.cost, 0);
+}
+function titulosCost(){
+  return state.titulos.reduce((sum,t)=> sum + costoTitulo(t.tipo,t.nota), 0);
+}
+function idiomasCost(){
+  return state.idiomas.reduce((sum,i)=> sum + costoIdioma(i.tipo,i.nivel), 0);
+}
+function talentosCost(){
+  let sum = 0;
+  state.talentos.forEach(name=>{
+    const t = TALENTOS.find(x=>x[0]===name);
+    if(t) sum += t[1];
+  });
+  return sum;
+}
+function razaCost(){
+  const r = RAZAS.find(x=>x[0]===state.raza);
+  return r ? r[1] : 0;
+}
+function arcanosCost(){
+  let sum = 0;
+  ARCANO_TIERS.forEach(t=> sum += state.arcanos[t.key]*t.price);
+  POCION_TIERS.forEach(t=> sum += state.arcanos[t.key]*t.price);
+  RITUAL_TIERS.forEach(t=> sum += state.arcanos[t.key]*t.price);
+  OBJETO_TIERS.forEach(t=> sum += state.arcanos[t.key]*t.price);
+  return sum;
+}
+function weaponMatCost(w){
+  let sum=0; w.materiales.forEach(n=>{const m=MATERIALES.find(x=>x[0]===n); if(m) sum+=m[1];});
+  return sum;
+}
+function weaponMatSlots(w){
+  let sum=0; w.materiales.forEach(n=>{const m=MATERIALES.find(x=>x[0]===n); if(m) sum+=m[2];});
+  return sum;
+}
+function weaponRunCost(w){
+  let sum=0; w.runas.forEach(n=>{const r=RUNAS.find(x=>x[0]===n); if(r) sum+=r[2];});
+  return sum;
+}
+function weaponRunSlots(w){
+  let sum=0; w.runas.forEach(n=>{const r=RUNAS.find(x=>x[0]===n); if(r) sum+=r[1];});
+  return sum;
+}
+function weaponCost(w){ return weaponMatCost(w) + weaponRunCost(w); }
+function armasCost(){ return state.armas.reduce((s,w)=> s+weaponCost(w), 0); }
+
+function pociencesLevel(){ return state.skillsBase["Pociones"] || 0; }
+function ritualesLevel(){ return state.skillsBase["Rituales"] || 0; }
+
+function otrosTotal(){
+  return titulosCost()+idiomasCost()+talentosCost()+razaCost()+arcanosCost()+armasCost();
+}
+function totalGastado(){
+  return cartTotal() + otrosTotal();
+}
+
+/* =========================================================
+   LEDGER
+   ========================================================= */
+function renderLedger(){
+  const gastadas = totalGastado();
+  const restantes = state.disponibles - gastadas;
+  document.getElementById("valGastadas").textContent = gastadas.toLocaleString("es-ES");
+  const restEl = document.getElementById("valRestantes");
+  restEl.textContent = restantes.toLocaleString("es-ES");
+  restEl.parentElement.classList.toggle("negative", restantes < 0);
+  document.getElementById("valCartQuick").textContent = `${state.cart.length} ítem(s) · ${cartTotal().toLocaleString("es-ES")} gr`;
+  const plRest = state.plDisponibles - plTotal();
+  const plEl = document.getElementById("valPLRestantes");
+  plEl.textContent = plRest.toLocaleString("es-ES");
+  plEl.parentElement.classList.toggle("negative", plRest < 0);
+}
+
+document.getElementById("inpDisponibles").addEventListener("input", e=>{
+  state.disponibles = Number(e.target.value)||0;
+  renderLedger();
+});
+document.getElementById("inpPL").addEventListener("input", e=>{
+  state.plDisponibles = Number(e.target.value)||0;
+  renderLedger();
+});
+document.getElementById("cartQuickNav").addEventListener("click", ()=> activateTab("carrito"));
+
+const resetBtn = document.getElementById("resetAllBtn");
+let resetArmed = false;
+let resetArmTimeout = null;
+function doFullReset(){
+  state = makeInitialState();
+  document.getElementById("inpDisponibles").value = 0;
+  document.getElementById("inpPL").value = 0;
+  renderAll();
+}
+resetBtn.addEventListener("click", ()=>{
+  if(!resetArmed){
+    resetArmed = true;
+    resetBtn.textContent = "¿Seguro? Tocá de nuevo para reiniciar";
+    resetBtn.style.color = "var(--bad)";
+    resetBtn.style.borderColor = "var(--bad)";
+    clearTimeout(resetArmTimeout);
+    resetArmTimeout = setTimeout(()=>{
+      resetArmed = false;
+      resetBtn.textContent = "Reiniciar todo";
+      resetBtn.style.color = "";
+      resetBtn.style.borderColor = "";
+    }, 3500);
+    return;
+  }
+  clearTimeout(resetArmTimeout);
+  resetArmed = false;
+  resetBtn.textContent = "Reiniciar todo";
+  resetBtn.style.color = "";
+  resetBtn.style.borderColor = "";
+  doFullReset();
+});
+
+/* =========================================================
+   TABS
+   ========================================================= */
+const TABS = [
+  {id:"stats", label:"Estadísticas"},
+  {id:"skills", label:"Habilidades"},
+  {id:"especial", label:"Especializaciones"},
+  {id:"trasfondos", label:"Trasfondos"},
+  {id:"formacion", label:"Formación e Idiomas"},
+  {id:"talentos", label:"Talentos"},
+  {id:"arcanos", label:"Arcanos"},
+  {id:"armas", label:"Armas"},
+  {id:"personaje", label:"Personaje"},
+  {id:"veterania", label:"Veteranía"},
+  {id:"legendarias", label:"Legendarias"},
+  {id:"carrito", label:"Carrito", cart:true},
+  {id:"resumen", label:"Resumen para copiar"}
+];
+const RENDERERS = {};
+
+function activateTab(id){
+  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  const btn = document.querySelector(`.tab-btn[data-tab="${id}"]`);
+  if(btn) btn.classList.add("active");
+  const panel = document.getElementById("panel-"+id);
+  if(panel) panel.classList.add("active");
+}
+
+function buildTabs(){
+  const bar = document.getElementById("tabBar");
+  const content = document.getElementById("tabContent");
+  TABS.forEach((t,i)=>{
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (i===0?" active":"") + (t.cart?" cart-tab":"");
+    btn.textContent = t.label;
+    btn.dataset.tab = t.id;
+    btn.addEventListener("click", ()=> activateTab(t.id));
+    bar.appendChild(btn);
+
+    const panel = document.createElement("div");
+    panel.className = "panel" + (i===0?" active":"");
+    panel.id = "panel-"+t.id;
+    content.appendChild(panel);
+  });
+}
+
+function renderAll(){
+  Object.values(RENDERERS).forEach(fn=>fn());
+  renderLedger();
+}
+
+/* ---------- helper: fila "nivel actual -> nivel nuevo -> agregar" ---------- */
+function buildLevelBuyRow({table, max, actual, target, onActualChange, onTargetChange, onAdd}){
+  const cost = costoSubida(table, actual, target);
+  const wrap = document.createElement("div");
+  wrap.className = "buy-row";
+  const actualOpts = [];
+  for(let l=0;l<=max;l++) actualOpts.push(`<option value="${l}" ${l===actual?"selected":""}>${l}</option>`);
+  const targetOpts = [];
+  for(let l=0;l<=max;l++) targetOpts.push(`<option value="${l}" ${l===target?"selected":""}>${l}</option>`);
+  wrap.innerHTML = `
+    <div class="field"><label>Nivel actual</label><select class="lvl-actual">${actualOpts.join("")}</select></div>
+    <div class="arrow">→</div>
+    <div class="field"><label>Nivel nuevo</label><select class="lvl-target">${targetOpts.join("")}</select></div>
+    <div class="buy-preview ${cost>0?"":"zero"}">${cost>0?cost+" gr":"—"}</div>
+    <button class="btn" ${cost>0?"":"disabled"}>Agregar al carrito</button>`;
+  wrap.querySelector(".lvl-actual").addEventListener("change", e=> onActualChange(Number(e.target.value)));
+  wrap.querySelector(".lvl-target").addEventListener("change", e=> onTargetChange(Number(e.target.value)));
+  wrap.querySelector("button").addEventListener("click", ()=>{ if(cost>0) onAdd(cost); });
+  return wrap;
+}
+
+/* ---------- ESTADÍSTICAS ---------- */
+RENDERERS.stats = function(){
+  const panel = document.getElementById("panel-stats");
+  panel.innerHTML = "";
+  const head = document.createElement("div");
+  head.innerHTML = `<h2 class="section-title">Estadísticas
+    <span class="subtotal-pill">En el carrito: <b>${cartTotalFor("ESTADÍSTICAS")}</b> grageas</span></h2>
+    <p class="section-sub">Elegí el nivel actual de la estadística y el nivel al que querés subirla. El costo se calcula de forma acumulativa entre ambos niveles (0 a 8).</p>`;
+  panel.appendChild(head);
+
+  const grid = document.createElement("div");
+  grid.className = "grid-3";
+  STATS.forEach(s=>{
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `<div class="card-row"><span class="card-name">${s}</span></div>`;
+    const actual = state.statsBase[s];
+    const target = Math.max(state.statsTarget[s]||0, actual);
+    const row = buildLevelBuyRow({
+      table: STAT_TABLE, max:8, actual, target,
+      onActualChange:(v)=>{ state.statsBase[s]=v; if(state.statsTarget[s]<=v) state.statsTarget[s]=Math.min(v+1,8); renderAll(); },
+      onTargetChange:(v)=>{ state.statsTarget[s]=v; renderAll(); },
+      onAdd:(cost)=>{
+        addToCart("ESTADÍSTICAS", `${s}: nivel ${actual} → nivel ${target} — ${cost} grageas`, cost);
+        state.statsBase[s]=target;
+        state.statsTarget[s]=Math.min(target+1,8);
+        renderAll();
+      }
+    });
+    card.appendChild(row);
+    grid.appendChild(card);
+  });
+  panel.appendChild(grid);
+};
+
+/* ---------- HABILIDADES ---------- */
+RENDERERS.skills = function(){
+  const panel = document.getElementById("panel-skills");
+  panel.innerHTML = "";
+  const head = document.createElement("div");
+  head.innerHTML = `<h2 class="section-title">Habilidades
+    <span class="subtotal-pill">En el carrito: <b>${cartTotalFor("HABILIDADES")}</b> grageas</span></h2>
+    <p class="section-sub">Agrupadas por la estadística que gobierna cada una. Niveles de 0 a 5, costo acumulativo entre el actual y el nuevo.</p>`;
+  panel.appendChild(head);
+
+  Object.entries(SKILL_GROUPS).forEach(([stat, skills])=>{
+    const cat = document.createElement("div");
+    cat.className = "skill-cat";
+    cat.innerHTML = `<div class="cat-head"><h3>${stat}</h3></div>`;
+    const grid = document.createElement("div");
+    grid.className = "grid-3";
+    skills.forEach(name=>{
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `<div class="card-row"><span class="card-name">${name}</span></div>`;
+      const actual = state.skillsBase[name];
+      const target = Math.max(state.skillsTarget[name]||0, actual);
+      const row = buildLevelBuyRow({
+        table: SKILL_TABLE, max:5, actual, target,
+        onActualChange:(v)=>{ state.skillsBase[name]=v; if(state.skillsTarget[name]<=v) state.skillsTarget[name]=Math.min(v+1,5); renderAll(); },
+        onTargetChange:(v)=>{ state.skillsTarget[name]=v; renderAll(); },
+        onAdd:(cost)=>{
+          addToCart("HABILIDADES", `${name}: nivel ${actual} → nivel ${target} — ${cost} grageas`, cost);
+          state.skillsBase[name]=target;
+          state.skillsTarget[name]=Math.min(target+1,5);
+          renderAll();
+        }
+      });
+      card.appendChild(row);
+      grid.appendChild(card);
+    });
+    cat.appendChild(grid);
+    panel.appendChild(cat);
+  });
+};
+
+/* ---------- ESPECIALIZACIONES ---------- */
+RENDERERS.especial = function(){
+  const panel = document.getElementById("panel-especial");
+  panel.innerHTML = "";
+  panel.innerHTML = `<h2 class="section-title">Especializaciones
+    <span class="subtotal-pill">En el carrito: <b>${cartTotalFor("ESPECIALIZACIONES")}</b> grageas</span></h2>
+    <p class="section-sub">Escribí el nombre, indicá de qué nivel a qué nivel la estás subiendo (si es nueva, dejá "nivel actual" en 0) y agregala al carrito.</p>`;
+
+  const adder = document.createElement("div");
+  adder.className = "adder";
+  const actual = state._espActual ?? 0;
+  const target = Math.max(state._espTarget ?? 1, actual);
+  const actualOpts = [0,1,2,3,4,5].map(l=>`<option value="${l}" ${l===actual?"selected":""}>${l}</option>`).join("");
+  const targetOpts = [0,1,2,3,4,5].map(l=>`<option value="${l}" ${l===target?"selected":""}>${l}</option>`).join("");
+  const cost = costoSubida(ESPEC_TABLE, actual, target);
+  adder.innerHTML = `
+    <div class="field"><label>Especialización</label>
+      <input type="text" id="espName" placeholder="Nombre" value="${(state._espName||"").replace(/"/g,'&quot;')}" style="min-width:200px;">
+    </div>
+    <div class="field"><label>Nivel actual</label><select id="espActual">${actualOpts}</select></div>
+    <div class="arrow">→</div>
+    <div class="field"><label>Nivel nuevo</label><select id="espTarget">${targetOpts}</select></div>
+    <div class="buy-preview ${cost>0?"":"zero"}">${cost>0?cost+" gr":"—"}</div>
+    <button class="btn" id="espAdd" ${cost>0?"":"disabled"}>Agregar al carrito</button>`;
+  panel.appendChild(adder);
+
+  const espItems = state.cart.filter(i=>i.category==="ESPECIALIZACIONES");
+  const list = document.createElement("div");
+  list.className = "chip-list";
+  if(espItems.length===0){
+    list.innerHTML = `<div class="empty-note">Aún no agregaste ninguna especialización al carrito.</div>`;
+  }
+  espItems.forEach(i=>{
+    const chip = document.createElement("div");
+    chip.className = "chip";
+    chip.innerHTML = `<span>${i.line}</span><button class="chip-remove" data-id="${i.id}">✕</button>`;
+    list.appendChild(chip);
+  });
+  panel.appendChild(list);
+
+  panel.querySelector("#espName").addEventListener("input", e=>{
+    state._espName = e.target.value;
+  });
+  panel.querySelector("#espActual").addEventListener("change", e=>{
+    state._espActual = Number(e.target.value);
+    if((state._espTarget ?? 1) <= state._espActual) state._espTarget = Math.min(state._espActual+1,5);
+    renderAll();
+  });
+  panel.querySelector("#espTarget").addEventListener("change", e=>{
+    state._espTarget = Number(e.target.value);
+    renderAll();
+  });
+  panel.querySelector("#espAdd").addEventListener("click", ()=>{
+    const name = (panel.querySelector("#espName").value || "").trim();
+    if(!name || cost<=0) return;
+    addToCart("ESPECIALIZACIONES", `${name}: nivel ${actual} → nivel ${target} — ${cost} grageas`, cost);
+    state._espName = "";
+    state._espActual = 0;
+    state._espTarget = 1;
+    renderAll();
+  });
+  panel.querySelectorAll(".chip-remove").forEach(btn=>{
+    btn.addEventListener("click", e=>{
+      const id = Number(e.target.dataset.id);
+      state.cart = state.cart.filter(x=>x.id!==id);
+      renderAll();
+    });
+  });
+};
+
+/* ---------- TRASFONDOS ---------- */
+RENDERERS.trasfondos = function(){
+  const panel = document.getElementById("panel-trasfondos");
+  panel.innerHTML = "";
+  panel.innerHTML = `<h2 class="section-title">Trasfondos
+    <span class="subtotal-pill">En el carrito: <b>${cartTotalFor("TRASFONDOS")}</b> grageas</span></h2>
+    <p class="section-sub">Generales y específicos. En ambos casos indicás nivel actual → nivel nuevo y el costo se calcula acumulativamente.</p>`;
+
+  const genTitle = document.createElement("div");
+  genTitle.className = "cart-section-title";
+  genTitle.textContent = "Generales";
+  panel.appendChild(genTitle);
+
+  const genGrid = document.createElement("div");
+  genGrid.className = "grid-3";
+  TRASF_GENERALES.forEach(name=>{
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `<div class="card-row"><span class="card-name">${name}</span></div>`;
+    const actual = state.trasfGenBase[name];
+    const target = Math.max(state.trasfGenTarget[name]||0, actual);
+    const row = buildLevelBuyRow({
+      table: TRASF_GEN_TABLE, max:5, actual, target,
+      onActualChange:(v)=>{ state.trasfGenBase[name]=v; if(state.trasfGenTarget[name]<=v) state.trasfGenTarget[name]=Math.min(v+1,5); renderAll(); },
+      onTargetChange:(v)=>{ state.trasfGenTarget[name]=v; renderAll(); },
+      onAdd:(cost)=>{
+        addToCart("TRASFONDOS", `${name}: nivel ${actual} → nivel ${target} — ${cost} grageas`, cost);
+        state.trasfGenBase[name]=target;
+        state.trasfGenTarget[name]=Math.min(target+1,5);
+        renderAll();
+      }
+    });
+    card.appendChild(row);
+    genGrid.appendChild(card);
+  });
+  panel.appendChild(genGrid);
+
+  const espTitle = document.createElement("div");
+  espTitle.className = "cart-section-title";
+  espTitle.textContent = "Específicos";
+  panel.appendChild(espTitle);
+
+  const adder = document.createElement("div");
+  adder.className = "adder";
+  const firstTipo = state._teTipo || TIPOS_ESPECIFICO[0];
+  const cats = categoriasParaTipo(firstTipo);
+  const firstCat = state._teCat && cats[state._teCat] ? state._teCat : Object.keys(cats)[0];
+  const specOpts = cats[firstCat] || [];
+  const firstSpec = state._teSpec && specOpts.includes(state._teSpec) ? state._teSpec : specOpts[0];
+  const teActual = state._teActual ?? 0;
+  const teTarget = Math.max(state._teTarget ?? 1, teActual);
+  const teCost = costoSubida(TRASF_ESP_TABLE, teActual, teTarget);
+  adder.innerHTML = `
+    <div class="field"><label>Tipo</label><select id="trasfEspTipo">${TIPOS_ESPECIFICO.map(t=>`<option value="${t}" ${t===firstTipo?"selected":""}>${t}</option>`).join("")}</select></div>
+    <div class="field"><label>Categoría</label><select id="trasfEspCat">${Object.keys(cats).map(c=>`<option value="${c}" ${c===firstCat?"selected":""}>${c}</option>`).join("")}</select></div>
+    <div class="field"><label>Específico</label><select id="trasfEspName">${specOpts.map(n=>`<option value="${n}" ${n===firstSpec?"selected":""}>${n}</option>`).join("")}</select></div>
+    <div class="field"><label>Nivel actual</label><select id="trasfEspActual">${[0,1,2,3,4,5].map(l=>`<option value="${l}" ${l===teActual?"selected":""}>${l}</option>`).join("")}</select></div>
+    <div class="arrow">→</div>
+    <div class="field"><label>Nivel nuevo</label><select id="trasfEspTarget">${[0,1,2,3,4,5].map(l=>`<option value="${l}" ${l===teTarget?"selected":""}>${l}</option>`).join("")}</select></div>
+    <div class="buy-preview ${teCost>0?"":"zero"}">${teCost>0?teCost+" gr":"—"}</div>
+    <button class="btn" id="trasfEspAdd" ${teCost>0?"":"disabled"}>Agregar al carrito</button>`;
+  panel.appendChild(adder);
+
+  const teItems = state.cart.filter(i=>i.category==="TRASFONDOS" && i.sub==="especifico");
+  const list = document.createElement("div");
+  list.className = "chip-list";
+  const allTrasfEspItems = state.cart.filter(i=> i.category==="TRASFONDOS" && i.isEspecifico);
+  if(allTrasfEspItems.length===0){
+    list.innerHTML = `<div class="empty-note">Aún no agregaste ningún trasfondo específico al carrito.</div>`;
+  }
+  allTrasfEspItems.forEach(i=>{
+    const chip = document.createElement("div");
+    chip.className = "chip";
+    chip.innerHTML = `<span>${i.line}</span><button class="chip-remove" data-id="${i.id}">✕</button>`;
+    list.appendChild(chip);
+  });
+  panel.appendChild(list);
+
+  panel.querySelector("#trasfEspTipo").addEventListener("change", e=>{
+    state._teTipo = e.target.value;
+    state._teCat = null;
+    state._teSpec = null;
+    renderAll();
+  });
+  panel.querySelector("#trasfEspCat").addEventListener("change", e=>{
+    state._teCat = e.target.value;
+    state._teSpec = null;
+    renderAll();
+  });
+  panel.querySelector("#trasfEspName").addEventListener("change", e=>{
+    state._teSpec = e.target.value;
+    renderAll();
+  });
+  panel.querySelector("#trasfEspActual").addEventListener("change", e=>{
+    state._teActual = Number(e.target.value);
+    if((state._teTarget ?? 1) <= state._teActual) state._teTarget = Math.min(state._teActual+1,5);
+    renderAll();
+  });
+  panel.querySelector("#trasfEspTarget").addEventListener("change", e=>{
+    state._teTarget = Number(e.target.value);
+    renderAll();
+  });
+  panel.querySelector("#trasfEspAdd").addEventListener("click", ()=>{
+    if(teCost<=0) return;
+    const item = {
+      id:nextId(), category:"TRASFONDOS", isEspecifico:true,
+      line:`${firstTipo.toUpperCase()} — ${firstCat} — ${firstSpec}: nivel ${teActual} → nivel ${teTarget} — ${teCost} grageas`,
+      cost:teCost
+    };
+    state.cart.push(item);
+    state._teActual = 0;
+    state._teTarget = 1;
+    renderAll();
+  });
+  panel.querySelectorAll(".chip-remove").forEach(btn=>{
+    btn.addEventListener("click", e=>{
+      const id = Number(e.target.dataset.id);
+      state.cart = state.cart.filter(x=>x.id!==id);
+      renderAll();
+    });
+  });
+};
+
+/* ---------- FORMACIÓN (Títulos) E IDIOMAS ---------- */
+RENDERERS.formacion = function(){
+  const panel = document.getElementById("panel-formacion");
+  panel.innerHTML = "";
+  const tCost = titulosCost(), iCost = idiomasCost();
+  panel.innerHTML = `<h2 class="section-title">Formación e Idiomas
+    <span class="subtotal-pill">Subtotal: <b>${tCost+iCost}</b> grageas</span></h2>
+    <p class="section-sub">Títulos académicos (TIMOs/EXTASIS) e idiomas conocidos. Son compras únicas, sin nivel progresivo.</p>`;
+
+  const titWrap = document.createElement("div");
+  titWrap.innerHTML = `<div class="cart-section-title">Títulos académicos <span style="color:var(--parchment-dim);font-size:0.8rem;">— ${tCost} gr</span></div>`;
+  panel.appendChild(titWrap);
+
+  const titAdder = document.createElement("div");
+  titAdder.className = "adder";
+  titAdder.innerHTML = `
+    <select id="titAsig">${ASIGNATURAS.map(a=>`<option value="${a}">${a}</option>`).join("")}</select>
+    <select id="titTipo"><option value="TIMOs">TIMOs</option><option value="EXTASIS">EXTASIS</option></select>
+    <select id="titNota">${NOTAS.map(n=>`<option value="${n}">${n}</option>`).join("")}</select>
+    <button class="btn" id="titAdd">Agregar al carrito</button>`;
+  panel.appendChild(titAdder);
+
+  const titList = document.createElement("div");
+  titList.className = "chip-list";
+  if(state.titulos.length===0){
+    titList.innerHTML = `<div class="empty-note">Sin títulos académicos registrados.</div>`;
+  }
+  state.titulos.forEach(t=>{
+    const cost = costoTitulo(t.tipo,t.nota);
+    const chip = document.createElement("div");
+    chip.className = "chip";
+    chip.innerHTML = `<div class="chip-info"><span>${t.asignatura}</span><span style="color:var(--parchment-dim)">${t.tipo} · ${t.nota}</span></div>
+      <div class="chip-info"><span class="chip-cost">${cost} gr</span><button class="chip-remove" data-titid="${t.id}">✕</button></div>`;
+    titList.appendChild(chip);
+  });
+  panel.appendChild(titList);
+
+  const idWrap = document.createElement("div");
+  idWrap.innerHTML = `<div class="cart-section-title">Idiomas <span style="color:var(--parchment-dim);font-size:0.8rem;">— ${iCost} gr</span></div>`;
+  panel.appendChild(idWrap);
+
+  const idAdder = document.createElement("div");
+  idAdder.className = "adder";
+  idAdder.innerHTML = `
+    <select id="idTipo"><option value="Muggle">Muggle</option><option value="Mágico">Mágico</option></select>
+    <select id="idNivel"><option value="Bajo">Bajo</option><option value="Medio">Medio</option><option value="Alto">Alto</option></select>
+    <button class="btn" id="idAdd">Agregar al carrito</button>`;
+  panel.appendChild(idAdder);
+
+  const idList = document.createElement("div");
+  idList.className = "chip-list";
+  if(state.idiomas.length===0){
+    idList.innerHTML = `<div class="empty-note">Sin idiomas adicionales registrados.</div>`;
+  }
+  state.idiomas.forEach(i=>{
+    const cost = costoIdioma(i.tipo,i.nivel);
+    const chip = document.createElement("div");
+    chip.className = "chip";
+    chip.innerHTML = `<div class="chip-info"><span>${i.tipo}</span><span style="color:var(--parchment-dim)">${i.nivel}</span></div>
+      <div class="chip-info"><span class="chip-cost">${cost} gr</span><button class="chip-remove" data-idid="${i.id}">✕</button></div>`;
+    idList.appendChild(chip);
+  });
+  panel.appendChild(idList);
+
+  panel.querySelector("#titAdd").addEventListener("click", ()=>{
+    state.titulos.push({
+      id:nextId(),
+      asignatura: panel.querySelector("#titAsig").value,
+      tipo: panel.querySelector("#titTipo").value,
+      nota: panel.querySelector("#titNota").value
+    });
+    renderAll();
+  });
+  panel.querySelectorAll(".chip-remove[data-titid]").forEach(btn=>{
+    btn.addEventListener("click", e=>{
+      const id = Number(e.target.dataset.titid);
+      state.titulos = state.titulos.filter(x=>x.id!==id);
+      renderAll();
+    });
+  });
+  panel.querySelector("#idAdd").addEventListener("click", ()=>{
+    state.idiomas.push({
+      id:nextId(),
+      tipo: panel.querySelector("#idTipo").value,
+      nivel: panel.querySelector("#idNivel").value
+    });
+    renderAll();
+  });
+  panel.querySelectorAll(".chip-remove[data-idid]").forEach(btn=>{
+    btn.addEventListener("click", e=>{
+      const id = Number(e.target.dataset.idid);
+      state.idiomas = state.idiomas.filter(x=>x.id!==id);
+      renderAll();
+    });
+  });
+};
+
+/* ---------- TALENTOS ---------- */
+RENDERERS.talentos = function(){
+  const panel = document.getElementById("panel-talentos");
+  panel.innerHTML = "";
+  panel.innerHTML = `<h2 class="section-title">Talentos
+    <span class="subtotal-pill">Subtotal: <b>${talentosCost()}</b> grageas</span></h2>
+    <p class="section-sub">Marcá los talentos que tiene tu personaje.</p>`;
+
+  const grid = document.createElement("div");
+  grid.className = "check-grid";
+  TALENTOS.forEach(([name,price])=>{
+    const row = document.createElement("div");
+    row.className = "check-row";
+    const checked = state.talentos.has(name);
+    row.innerHTML = `<input type="checkbox" id="tal-${name}" data-talent="${name}" ${checked?"checked":""}>
+      <label for="tal-${name}">${name}</label><span class="price">${price} gr</span>`;
+    grid.appendChild(row);
+  });
+  panel.appendChild(grid);
+
+  panel.querySelectorAll("input[data-talent]").forEach(chk=>{
+    chk.addEventListener("change", e=>{
+      const name = e.target.dataset.talent;
+      if(e.target.checked) state.talentos.add(name); else state.talentos.delete(name);
+      renderAll();
+    });
+  });
+};
+
+/* ---------- ARCANOS ---------- */
+function renderArcanoGroup(title, tiers){
+  const wrap = document.createElement("div");
+  wrap.className = "arc-group";
+  let warn = "";
+  const gr = state.arcanos;
+  tiers.forEach(t=>{
+    if(t.requiresLE && gr[t.key] > gr[t.requiresLE]){
+      warn += `Faltan ${title.toLowerCase()} del nivel anterior para sostener "${t.label}". `;
+    }
+    if(t.gate!==undefined){
+      const lvl = title==="Pociones" ? pociencesLevel() : ritualesLevel();
+      if(gr[t.key] > 0 && lvl < t.gate){
+        warn += `"${t.label}" requiere ${title} nivel ${t.gate} o superior (actual: ${lvl}). `;
+      }
+    }
+  });
+  const cost = tiers.reduce((s,t)=> s + gr[t.key]*t.price, 0);
+  wrap.innerHTML = `<h3>${title} <span style="color:var(--gold-dim);font-size:0.8rem;float:right;">${cost} gr</span></h3>`;
+  tiers.forEach(t=>{
+    const row = document.createElement("div");
+    row.className = "arc-row";
+    row.innerHTML = `<label>${t.label}<small>${t.price} gr / unidad</small></label>
+      <input type="number" min="0" data-arc="${t.key}" value="${gr[t.key]}">`;
+    wrap.appendChild(row);
+  });
+  if(warn) {
+    const w = document.createElement("div");
+    w.className = "warn-text";
+    w.textContent = warn.trim();
+    wrap.appendChild(w);
+  }
+  return wrap;
+}
+
+RENDERERS.arcanos = function(){
+  const panel = document.getElementById("panel-arcanos");
+  panel.innerHTML = "";
+  panel.innerHTML = `<h2 class="section-title">Arcanos
+    <span class="subtotal-pill">Subtotal: <b>${arcanosCost()}</b> grageas</span></h2>
+    <p class="section-sub">Las pociones y rituales requieren nivel suficiente en la habilidad correspondiente (Pociones: nivel ${pociencesLevel()}, Rituales: nivel ${ritualesLevel()}).</p>`;
+
+  const grid = document.createElement("div");
+  grid.className = "grid-2";
+  grid.appendChild(renderArcanoGroup("Hechizos", ARCANO_TIERS));
+  grid.appendChild(renderArcanoGroup("Pociones", POCION_TIERS));
+  grid.appendChild(renderArcanoGroup("Rituales", RITUAL_TIERS));
+  grid.appendChild(renderArcanoGroup("Objetos", OBJETO_TIERS));
+  panel.appendChild(grid);
+
+  panel.querySelectorAll("input[data-arc]").forEach(inp=>{
+    inp.addEventListener("input", e=>{
+      state.arcanos[e.target.dataset.arc] = Math.max(0, Number(e.target.value)||0);
+      renderAll();
+    });
+  });
+};
+
+/* ---------- ARMAS ---------- */
+RENDERERS.armas = function(){
+  const panel = document.getElementById("panel-armas");
+  panel.innerHTML = "";
+  panel.innerHTML = `<h2 class="section-title">Armas
+    <span class="subtotal-pill">Subtotal: <b>${armasCost()}</b> grageas</span></h2>
+    <p class="section-sub">Cada material añade huecos de rúnica; cada runa consume huecos según su nivel.</p>`;
+
+  state.armas.forEach((w, idx)=>{
+    const card = document.createElement("div");
+    card.className = "weapon-card";
+    const matCost = weaponMatCost(w), runCost = weaponRunCost(w);
+    const slotsAvail = weaponMatSlots(w), slotsNeed = weaponRunSlots(w);
+    card.innerHTML = `<h3>${w.nombre} <span style="color:var(--gold-dim);font-size:0.85rem;">— ${matCost+runCost} gr</span></h3>`;
+
+    const cols = document.createElement("div");
+    cols.className = "weapon-cols";
+
+    const matCol = document.createElement("div");
+    matCol.className = "weapon-col";
+    matCol.innerHTML = `<h4>Materiales — ${matCost} gr</h4>`;
+    MATERIALES.forEach(([name,price,slots])=>{
+      const checked = w.materiales.has(name);
+      const row = document.createElement("div");
+      row.className = "check-row";
+      row.innerHTML = `<input type="checkbox" id="mat-${idx}-${name}" data-weapon="${idx}" data-mat="${name}" ${checked?"checked":""}>
+        <label for="mat-${idx}-${name}">${name}</label><span class="price">${price} gr</span>`;
+      matCol.appendChild(row);
+    });
+    cols.appendChild(matCol);
+
+    const runCol = document.createElement("div");
+    runCol.className = "weapon-col";
+    runCol.innerHTML = `<h4>Runas — ${runCost} gr</h4>`;
+    RUNAS.forEach(([name,slots,price])=>{
+      const checked = w.runas.has(name);
+      const row = document.createElement("div");
+      row.className = "check-row";
+      row.innerHTML = `<input type="checkbox" id="run-${idx}-${name}" data-weapon="${idx}" data-run="${name}" ${checked?"checked":""}>
+        <label for="run-${idx}-${name}">${name}</label><span class="price">${price} gr</span>`;
+      runCol.appendChild(row);
+    });
+    cols.appendChild(runCol);
+
+    card.appendChild(cols);
+
+    const summary = document.createElement("div");
+    summary.className = "weapon-summary";
+    const slotsClass = slotsNeed > slotsAvail ? "slots-bad" : "slots-ok";
+    summary.innerHTML = `<span>Huecos disponibles: <b>${slotsAvail}</b></span>
+      <span>Huecos necesarios: <b class="${slotsClass}">${slotsNeed}</b></span>
+      ${slotsNeed>slotsAvail ? `<span class="warn-text">Faltan huecos de rúnica para esta arma.</span>`:""}`;
+    card.appendChild(summary);
+
+    panel.appendChild(card);
+  });
+
+  panel.querySelectorAll("input[data-mat]").forEach(chk=>{
+    chk.addEventListener("change", e=>{
+      const w = state.armas[Number(e.target.dataset.weapon)];
+      const name = e.target.dataset.mat;
+      if(e.target.checked) w.materiales.add(name); else w.materiales.delete(name);
+      renderAll();
+    });
+  });
+  panel.querySelectorAll("input[data-run]").forEach(chk=>{
+    chk.addEventListener("change", e=>{
+      const w = state.armas[Number(e.target.dataset.weapon)];
+      const name = e.target.dataset.run;
+      if(e.target.checked) w.runas.add(name); else w.runas.delete(name);
+      renderAll();
+    });
+  });
+};
+
+/* ---------- PERSONAJE (Raza) ---------- */
+RENDERERS.personaje = function(){
+  const panel = document.getElementById("panel-personaje");
+  panel.innerHTML = "";
+  panel.innerHTML = `<h2 class="section-title">Personaje
+    <span class="subtotal-pill">Subtotal: <b>${razaCost()}</b> grageas</span></h2>
+    <p class="section-sub">Raza del personaje. Mirá el total completo y el detalle de todas tus compras en la pestaña Carrito.</p>`;
+
+  const raceCard = document.createElement("div");
+  raceCard.className = "card";
+  raceCard.style.maxWidth = "360px";
+  raceCard.innerHTML = `
+    <div class="card-row"><span class="card-name">Raza</span><span class="card-cost">${razaCost()} gr</span></div>
+    <div class="card-row">
+      <select id="razaSelect">
+        ${RAZAS.map(([n,p])=>`<option value="${n}" ${state.raza===n?"selected":""}>${n} (${p} gr)</option>`).join("")}
+      </select>
+    </div>`;
+  panel.appendChild(raceCard);
+
+  panel.querySelector("#razaSelect").addEventListener("change", e=>{
+    state.raza = e.target.value;
+    renderAll();
+  });
+};
+
+/* ---------- VETERANÍA / LEGENDARIAS (helper) ---------- */
+function buildPerkCard(item, category, legend){
+  const card = document.createElement("div");
+  card.className = "card perk-card" + (legend ? " legend" : "");
+  const count = cartCountKey(item.key);
+  const priceHtml = item.pl>0
+    ? `${fmt(item.price)} gr <span class="pl">+ ${item.pl} PL</span>`
+    : `${fmt(item.price)} gr`;
+  card.innerHTML = `
+    <div class="perk-head"><h3>${item.nombre}</h3><span class="perk-price">${priceHtml}</span></div>
+    ${item.req ? `<div class="perk-req">${item.req}</div>` : ""}
+    <p class="perk-desc">${item.desc}</p>
+    ${item.limit ? `<div class="perk-limit">${item.limit}</div>` : ""}`;
+
+  const row = document.createElement("div");
+  row.className = "buy-row";
+  const f = item.field;
+  let fieldHtml = "";
+  if(f && f.type==="select"){
+    fieldHtml = `<div class="field"><label>${f.label}</label><select class="perk-detail">${f.options.map(o=>`<option value="${o}">${o}</option>`).join("")}</select></div>`;
+  } else if(f && f.type==="text"){
+    fieldHtml = `<div class="field"><label>${f.label}</label><input type="text" class="perk-detail" placeholder="${f.ph||""}"></div>`;
+  } else if(f && f.type==="proeza"){
+    const groups = Object.entries(PROEZAS).map(([stat,list])=>
+      `<optgroup label="${stat}">${list.map(n=>`<option value="${n}|${stat}">${n}</option>`).join("")}</optgroup>`).join("");
+    fieldHtml = `<div class="field"><label>${f.label}</label><select class="perk-detail">${groups}</select></div>`;
+  } else if(f && f.type==="limite"){
+    fieldHtml = `<div class="field"><label>STAT</label><select class="perk-detail">${STATS.map(o=>`<option value="${o}">${o}</option>`).join("")}</select></div>
+      <div class="field"><label>Límite actual</label><select class="perk-lim">${[1,2,3,4].map(l=>`<option value="${l}">${l} → ${l+1}</option>`).join("")}</select></div>`;
+  }
+  row.innerHTML = `${fieldHtml}
+    <button class="btn ${legend?"arcane":""}">Agregar al carrito</button>
+    <span class="perk-count">${count>0 ? `En el carrito: ${count}` : ""}</span>`;
+  card.appendChild(row);
+
+  if(item.maxPerYear && count > item.maxPerYear){
+    const w = document.createElement("div");
+    w.className = "warn-text";
+    w.textContent = `Tenés ${count} en el carrito: el máximo es ${item.maxPerYear} por año de veteranía. Si estás canjeando varios años acumulados, ignorá este aviso.`;
+    card.appendChild(w);
+  }
+  if(item.key==="proeza"){
+    const pdTotal = state.pdActuales + cartCountKey("pd");
+    if(count > 0 && count > pdTotal){
+      const w = document.createElement("div");
+      w.className = "warn-text";
+      w.textContent = `Tenés ${count} Proeza(s) en el carrito pero ${pdTotal} Punto(s) de Destino (contando los que estás canjeando). Recordá que sólo podés tener tantas Proezas como PDs poseas.`;
+      card.appendChild(w);
+    }
+  }
+
+  row.querySelector("button").addEventListener("click", ()=>{
+    let detalle = "";
+    const det = row.querySelector(".perk-detail");
+    if(f && f.type==="proeza"){
+      const [n,stat] = det.value.split("|");
+      detalle = `${n} — ${stat}`;
+    } else if(f && f.type==="limite"){
+      const l = Number(row.querySelector(".perk-lim").value);
+      detalle = `${det.value}: límite ${l} → ${l+1}`;
+    } else if(det){
+      detalle = det.value.trim();
+    }
+    const nombre = detalle ? `${item.nombre} (${detalle})` : item.nombre;
+    addToCart(category, `${nombre} — ${precioTexto(item.price, item.pl)}`, item.price, item.pl, item.key);
+    renderAll();
+  });
+  return card;
+}
+
+/* ---------- VETERANÍA ---------- */
+RENDERERS.veterania = function(){
+  const panel = document.getElementById("panel-veterania");
+  const vetPL = state.cart.filter(i=>i.category==="VETERANÍA").reduce((s,i)=>s+(i.pl||0),0);
+  panel.innerHTML = `<h2 class="section-title">Veteranía
+    <span class="subtotal-pill">En el carrito: <b>${fmt(cartTotalFor("VETERANÍA"))}</b> grageas${vetPL?` · <b>${vetPL}</b> PL`:""}</span></h2>
+    <p class="section-sub">Proezas, Puntos de Destino y ampliación de límites de STAT. Elegí los detalles de cada canje y agregalo al carrito.</p>`;
+
+  const banner = document.createElement("div");
+  banner.className = "info-banner";
+  banner.innerHTML = `→ Las grageas de veteranía deben solicitarse en el <a href="${LINK_REGISTRO}" target="_blank" rel="noopener">Registro de Veteranía</a>.
+    <div class="pd-field"><b>Puntos de Destino que ya posees:</b> <input type="number" min="0" id="pdActualesInp" value="${state.pdActuales}"></div>`;
+  panel.appendChild(banner);
+
+  const list = document.createElement("div");
+  list.className = "perk-list";
+  VETERANIA.forEach(item=> list.appendChild(buildPerkCard(item, "VETERANÍA", false)));
+  panel.appendChild(list);
+
+  panel.querySelector("#pdActualesInp").addEventListener("change", e=>{
+    state.pdActuales = Math.max(0, Number(e.target.value)||0);
+    renderAll();
+  });
+};
+
+/* ---------- CARACTERÍSTICAS LEGENDARIAS ---------- */
+RENDERERS.legendarias = function(){
+  const panel = document.getElementById("panel-legendarias");
+  const legPL = state.cart.filter(i=>i.category==="LEGENDARIAS").reduce((s,i)=>s+(i.pl||0),0);
+  panel.innerHTML = `<h2 class="section-title">Características Legendarias
+    <span class="subtotal-pill">En el carrito: <b>${fmt(cartTotalFor("LEGENDARIAS"))}</b> grageas · <b>${legPL}</b> PL</span></h2>
+    <p class="section-sub">Rasgos de la ficha que pueden desarrollarse por encima de los límites convencionales.</p>`;
+
+  const banner = document.createElement("div");
+  banner.className = "info-banner";
+  banner.innerHTML = `Son rasgos ya existentes de la ficha de personaje que pueden desarrollarse por encima de los límites convencionales. Son distintos puntos en los que el PJ destaca y es de los mejores del mundo, si no el mejor. Ya sea un Atributo en el que es particularmente bueno, una Habilidad entrenada hasta el heroísmo o unas conexiones que inspiran más allá de las de cualquier otro líder conocido.<br><br>
+    <b>Las Características Legendarias no pueden adquirirse hasta que el PJ tenga una Veteranía Legendaria</b> y, además de su coste en grageas, lo tienen en Puntos Legendarios. Cada Veteranía Legendaria se adquiere cada tres años en el foro.<br><br>✦ El <b>Atributo Legendario</b> está al final de la pestaña Estadísticas y la <b>Habilidad Legendaria</b> al final de Habilidades.`;
+  panel.appendChild(banner);
+
+  const list = document.createElement("div");
+  list.className = "perk-list";
+  LEGENDARIAS.filter(item=>!item.inlineTab).forEach(item=> list.appendChild(buildPerkCard(item, "LEGENDARIAS", true)));
+  panel.appendChild(list);
+};
+
+/* ---------- CARRITO ---------- */
+RENDERERS.carrito = function(){
+  const panel = document.getElementById("panel-carrito");
+  panel.innerHTML = "";
+  panel.innerHTML = `<h2 class="section-title">Carrito</h2>
+    <p class="section-sub">Acá se van sumando todas las subidas de nivel y canjes que agregaste (estadísticas, habilidades, especializaciones, trasfondos, veteranía y características legendarias). Revisá la suma tentativa y, cuando estés conforme, llevala al texto para el foro.</p>`;
+
+  const hero = document.createElement("div");
+  hero.className = "cart-hero";
+  hero.innerHTML = `
+    <div>
+      <div class="cart-total-lbl">Suma tentativa del carrito</div>
+      <div class="cart-total-num">${cartTotal().toLocaleString("es-ES")} grageas</div>
+      ${plTotal()>0 ? `<div class="cart-total-lbl" style="margin-top:6px;color:var(--arcane-bright);">+ ${plTotal()} Puntos Legendarios</div>` : ""}
+    </div>
+    <button class="btn arcane" id="llevarTextoBtn">Llevar al Texto →</button>`;
+  panel.appendChild(hero);
+
+  if(state.cart.length===0){
+    const empty = document.createElement("div");
+    empty.className = "empty-note";
+    empty.textContent = "El carrito está vacío. Andá a Estadísticas, Habilidades, Especializaciones, Trasfondos, Veteranía o Legendarias para agregar canjes.";
+    panel.appendChild(empty);
+  } else {
+    const list = document.createElement("div");
+    list.className = "chip-list";
+    state.cart.forEach(i=>{
+      const chip = document.createElement("div");
+      chip.className = "chip";
+      chip.innerHTML = `<div class="chip-info"><span class="cat-tag">${i.category}</span><span>${i.line}</span></div>
+        <button class="chip-remove" data-id="${i.id}">✕</button>`;
+      list.appendChild(chip);
+    });
+    panel.appendChild(list);
+  }
+
+  const otros = otrosTotal();
+  if(otros > 0){
+    const otrosTitle = document.createElement("div");
+    otrosTitle.className = "cart-section-title";
+    otrosTitle.textContent = "Otras selecciones (gestionadas en sus propias pestañas)";
+    panel.appendChild(otrosTitle);
+
+    const rows = [
+      ["Títulos académicos", titulosCost()],
+      ["Idiomas", idiomasCost()],
+      ["Talentos", talentosCost()],
+      ["Raza", razaCost()],
+      ["Arcanos", arcanosCost()],
+      ["Armas", armasCost()]
+    ].filter(([,v])=>v>0);
+    const otrosCard = document.createElement("div");
+    otrosCard.className = "card";
+    otrosCard.style.maxWidth = "420px";
+    rows.forEach(([label,val])=>{
+      const r = document.createElement("div");
+      r.className = "card-row";
+      r.innerHTML = `<span class="card-name" style="font-weight:400;">${label}</span><span class="card-cost">${val} gr</span>`;
+      otrosCard.appendChild(r);
+    });
+    panel.appendChild(otrosCard);
+  }
+
+  const totalBar = document.createElement("div");
+  totalBar.style.marginTop = "20px";
+  totalBar.style.fontFamily = "var(--serif)";
+  totalBar.style.fontSize = "1.2rem";
+  totalBar.style.color = "var(--gold)";
+  totalBar.textContent = `Total general: ${totalGastado().toLocaleString("es-ES")} grageas` + (plTotal()>0 ? ` y ${plTotal()} Puntos Legendarios` : "");
+  panel.appendChild(totalBar);
+
+  panel.querySelector("#llevarTextoBtn").addEventListener("click", ()=> activateTab("resumen"));
+  panel.querySelectorAll(".chip-remove").forEach(btn=>{
+    btn.addEventListener("click", e=>{
+      const id = Number(e.target.dataset.id);
+      state.cart = state.cart.filter(x=>x.id!==id);
+      renderAll();
+    });
+  });
+};
+
+/* ---------- RESUMEN / TEXTO PARA COPIAR ---------- */
+function buildSummaryLines(){
+  const lines = [];
+
+  function pushCartCategory(category, heading){
+    const rows = state.cart.filter(i=>i.category===category && !i.isEspecifico).map(i=>i.line);
+    if(rows.length){ lines.push(heading, ...rows, ""); }
+  }
+  pushCartCategory("ESTADÍSTICAS", "ESTADÍSTICAS");
+  pushCartCategory("HABILIDADES", "HABILIDADES");
+  pushCartCategory("ESPECIALIZACIONES", "ESPECIALIZACIONES");
+
+  const trasfRows = state.cart.filter(i=>i.category==="TRASFONDOS").map(i=>i.line);
+  if(trasfRows.length){ lines.push("TRASFONDOS", ...trasfRows, ""); }
+
+  pushCartCategory("VETERANÍA", "VETERANÍA");
+  pushCartCategory("LEGENDARIAS", "CARACTERÍSTICAS LEGENDARIAS");
+
+  const titRows = state.titulos.map(t=>
+    `${t.asignatura} (${t.tipo}, ${t.nota}) — ${costoTitulo(t.tipo,t.nota)} grageas`
+  );
+  if(titRows.length){ lines.push("TÍTULOS ACADÉMICOS", ...titRows, ""); }
+
+  const idRows = state.idiomas.map(i=>
+    `Idioma ${i.tipo} nivel ${i.nivel} — ${costoIdioma(i.tipo,i.nivel)} grageas`
+  );
+  if(idRows.length){ lines.push("IDIOMAS", ...idRows, ""); }
+
+  const talRows = TALENTOS.filter(([name])=>state.talentos.has(name)).map(([name,price])=>
+    `${name} — ${price} grageas`
+  );
+  if(talRows.length){ lines.push("TALENTOS", ...talRows, ""); }
+
+  if(state.raza !== "Humano"){
+    lines.push("PERSONAJE", `Raza: ${state.raza} — ${razaCost()} grageas`, "");
+  }
+
+  const arcRows = [];
+  [...ARCANO_TIERS,...POCION_TIERS,...RITUAL_TIERS,...OBJETO_TIERS].forEach(t=>{
+    const qty = state.arcanos[t.key];
+    if(qty>0) arcRows.push(`${t.label} x${qty} — ${qty*t.price} grageas`);
+  });
+  if(arcRows.length){ lines.push("ARCANOS", ...arcRows, ""); }
+
+  state.armas.forEach(w=>{
+    const matRows = [...w.materiales].map(n=>{
+      const m = MATERIALES.find(x=>x[0]===n);
+      return `${n} — ${m[1]} grageas`;
+    });
+    const runRows = [...w.runas].map(n=>{
+      const r = RUNAS.find(x=>x[0]===n);
+      return `${n} — ${r[2]} grageas`;
+    });
+    if(matRows.length || runRows.length){
+      lines.push(w.nombre.toUpperCase(), ...matRows, ...runRows, "");
+    }
+  });
+
+  while(lines.length && lines[lines.length-1] === "") lines.pop();
+
+  if(lines.length === 0){
+    lines.push("Todavía no seleccionaste ningún canje.");
+  }
+
+  lines.push("");
+  lines.push(`Total: ${totalGastado()} grageas` + (plTotal()>0 ? ` y ${plTotal()} Puntos Legendarios.` : "."));
+  return lines;
+}
+
+function isHeadingLine(line){
+  return line.length>0 && line===line.toUpperCase() && !line.includes("—") && !line.startsWith("Total");
+}
+
+RENDERERS.resumen = function(){
+  const panel = document.getElementById("panel-resumen");
+  panel.innerHTML = "";
+  const lines = buildSummaryLines();
+  const plainText = lines.join("\n");
+
+  panel.innerHTML = `<h2 class="section-title">Resumen para copiar</h2>
+    <p class="section-sub">Todo lo que agregaste al carrito y en las demás pestañas, ya redactado y con el cálculo hecho. Copialo y pegalo donde tengas que hacer tu petición de canje.</p>`;
+
+  const toolbar = document.createElement("div");
+  toolbar.className = "summary-toolbar";
+  toolbar.innerHTML = `<button class="btn" id="copySummaryBtn">Copiar texto</button>
+    <span class="copy-status" id="copyStatus">Copiado ✓</span>`;
+  panel.appendChild(toolbar);
+
+  const box = document.createElement("div");
+  box.className = "summary-box";
+  box.id = "summaryBox";
+  box.innerHTML = lines.map(line=>{
+    if(line === "") return "";
+    if(isHeadingLine(line)) return `<span class="sec-heading">${line}</span>`;
+    if(line.startsWith("Total:")) return `<span class="sec-total">${line}</span>`;
+    return line;
+  }).join("\n");
+  panel.appendChild(box);
+
+  document.getElementById("copySummaryBtn").addEventListener("click", ()=>{
+    const doCopy = () => {
+      const status = document.getElementById("copyStatus");
+      status.classList.add("show");
+      setTimeout(()=>status.classList.remove("show"), 1600);
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(plainText).then(doCopy).catch(()=>{
+        fallbackCopy(plainText); doCopy();
+      });
+    } else {
+      fallbackCopy(plainText); doCopy();
+    }
+  });
+};
+
+function fallbackCopy(text){
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  ta.style.position = "fixed";
+  ta.style.opacity = "0";
+  document.body.appendChild(ta);
+  ta.select();
+  try{ document.execCommand("copy"); }catch(e){}
+  document.body.removeChild(ta);
+}
+
+/* ---------- Legendarias dentro de Estadísticas y Habilidades ---------- */
+function appendInlineLegend(tabId){
+  const panel = document.getElementById("panel-"+tabId);
+  const wrap = document.createElement("div");
+  wrap.className = "legend-inline";
+  wrap.innerHTML = `<div class="cart-section-title">Característica Legendaria</div>
+    <p class="section-sub" style="margin-top:0">Requiere Veteranía Legendaria. Además de las grageas, cuesta Puntos Legendarios.</p>`;
+  LEGENDARIAS.filter(i=>i.inlineTab===tabId).forEach(item=> wrap.appendChild(buildPerkCard(item, "LEGENDARIAS", true)));
+  panel.appendChild(wrap);
+}
+["stats","skills"].forEach(tabId=>{
+  const orig = RENDERERS[tabId];
+  RENDERERS[tabId] = function(){ orig(); appendInlineLegend(tabId); };
+});
+
+/* ---------- chispitas al agregar ---------- */
+const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+document.addEventListener("click", e=>{
+  const btn = e.target.closest(".btn");
+  if(!btn || btn.disabled || btn.classList.contains("ghost") || reduceMotion) return;
+  const glyphs = ["✦","✧","⋆","·"];
+  for(let k=0;k<7;k++){
+    const sp = document.createElement("span");
+    sp.className = "sparkle";
+    sp.textContent = glyphs[k%glyphs.length];
+    const ang = (Math.PI*2*k)/7 + Math.random()*0.5;
+    const dist = 22 + Math.random()*20;
+    sp.style.left = e.clientX+"px";
+    sp.style.top = e.clientY+"px";
+    sp.style.setProperty("--dx", Math.cos(ang)*dist+"px");
+    sp.style.setProperty("--dy", Math.sin(ang)*dist+"px");
+    if(btn.classList.contains("arcane") || k%3===0) sp.style.color = "var(--arcane-bright)";
+    document.body.appendChild(sp);
+    setTimeout(()=>sp.remove(), 800);
+  }
+}, true);
+
+/* =========================================================
+   INIT
+   ========================================================= */
+buildTabs();
+renderAll();
+</script>
+</body>
+</html>
